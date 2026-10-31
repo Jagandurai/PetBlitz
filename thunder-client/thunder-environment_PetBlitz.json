@@ -1,0 +1,95 @@
+{
+  "_id": "f5e4b7f8-ec7e-b4a6-7d552da03245",
+  "name": "PetBlitz Local (placeholders)",
+  "default": true,
+  "global": false,
+  "sortNum": 10000,
+  "created": "2026-01-01T00:00:00.000Z",
+  "modified": "2026-01-01T00:00:00.000Z",
+  "data": [
+    {
+      "name": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "name": "adminKey",
+      "value": "<ADMIN_API_KEY>"
+    },
+    {
+      "name": "customerToken",
+      "value": "<run: npm run auth:dev-token -- CUSTOMER_ID>"
+    },
+    {
+      "name": "cronSecret",
+      "value": "<CRON_SECRET>"
+    },
+    {
+      "name": "categoryId",
+      "value": ""
+    },
+    {
+      "name": "categoryId2",
+      "value": ""
+    },
+    {
+      "name": "labCategoryId",
+      "value": ""
+    },
+    {
+      "name": "accessoriesCategoryId",
+      "value": ""
+    },
+    {
+      "name": "petId",
+      "value": ""
+    },
+    {
+      "name": "productId",
+      "value": ""
+    },
+    {
+      "name": "petSlug",
+      "value": ""
+    },
+    {
+      "name": "productSlug",
+      "value": ""
+    },
+    {
+      "name": "orderId",
+      "value": ""
+    },
+    {
+      "name": "orderItemId",
+      "value": ""
+    },
+    {
+      "name": "customerId",
+      "value": ""
+    },
+    {
+      "name": "addressId",
+      "value": ""
+    },
+    {
+      "name": "reviewId",
+      "value": ""
+    },
+    {
+      "name": "ticketId",
+      "value": ""
+    },
+    {
+      "name": "adminId",
+      "value": ""
+    },
+    {
+      "name": "couponId",
+      "value": ""
+    },
+    {
+      "name": "returnId",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+name: CI
+on:
+  push: { branches: [main] }
+  pull_request:
+permissions: { contents: read }
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run test:unit
+        env: { ADMIN_API_KEY: ci-admin-key-ci-admin-key-ci-admin-key, SESSION_SECRET: ci-session-secret-ci-session-secret-12 }
+      - run: npm run build
+        env: { MONGODB_URI: "mongodb://localhost:27017/ci", MONGODB_DB_NAME: ci }
+      - run: npm audit --omit=dev --audit-level=high
+        continue-on-error: true   # report only; review advisories manually
+  # Database integration tests run against a DEDICATED test database. Add repository secret MONGODB_TEST_URI (db name PetBlitzTest).
+  db-tests:
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run test:db
+        env: { MONGODB_TEST_URI: "${{ secrets.MONGODB_TEST_URI }}", MONGODB_URI: "${{ secrets.MONGODB_TEST_URI }}", ADMIN_API_KEY: ci-admin-key-ci-admin-key-ci-admin-key, SESSION_SECRET: ci-session-secret-ci-session-secret-12 }

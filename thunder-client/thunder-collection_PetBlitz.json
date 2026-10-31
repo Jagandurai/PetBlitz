@@ -1,0 +1,4039 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "PetBlitz API",
+  "dateExported": "2026-01-01T00:00:00.000Z",
+  "version": "1.2",
+  "folders": [
+    {
+      "_id": "092d4b43-9097-d7e8-cbdf19534394",
+      "name": "Public",
+      "containerId": "",
+      "created": "2026-01-01T00:00:00.000Z",
+      "sortNum": 10000
+    },
+    {
+      "_id": "f2e0b51c-015a-40b4-0bfb4c9879c6",
+      "name": "Customer auth",
+      "containerId": "",
+      "created": "2026-01-01T00:00:00.000Z",
+      "sortNum": 20000
+    },
+    {
+      "_id": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Customer",
+      "containerId": "",
+      "created": "2026-01-01T00:00:00.000Z",
+      "sortNum": 30000
+    },
+    {
+      "_id": "038eddbe-e672-640b-c2098b231ebe",
+      "name": "Admin / System",
+      "containerId": "",
+      "created": "2026-01-01T00:00:00.000Z",
+      "sortNum": 40000
+    },
+    {
+      "_id": "5c1d6096-dbf4-26dc-79987f60c16b",
+      "name": "Admin / Categories",
+      "containerId": "",
+      "created": "2026-01-01T00:00:00.000Z",
+      "sortNum": 50000
+    },
+    {
+      "_id": "487b22a0-ddee-f736-59a21139574c",
+      "name": "Admin / Pets",
+      "containerId": "",
+      "created": "2026-01-01T00:00:00.000Z",
+      "sortNum": 60000
+    },
+    {
+      "_id": "8f615485-98aa-5af0-122c9f1121be",
+      "name": "Admin / Products",
+      "containerId": "",
+      "created": "2026-01-01T00:00:00.000Z",
+      "sortNum": 70000
+    },
+    {
+      "_id": "6584a055-b0f6-6d5f-cc0df19aedfb",
+      "name": "Admin / Orders",
+      "containerId": "",
+      "created": "2026-01-01T00:00:00.000Z",
+      "sortNum": 80000
+    },
+    {
+      "_id": "5c16dec1-a2e5-f394-60be3bd890d6",
+      "name": "Admin / Customers & Wallet",
+      "containerId": "",
+      "created": "2026-01-01T00:00:00.000Z",
+      "sortNum": 90000
+    },
+    {
+      "_id": "88b74cc8-750a-89fa-c75bc3815448",
+      "name": "Admin / Reviews & Support",
+      "containerId": "",
+      "created": "2026-01-01T00:00:00.000Z",
+      "sortNum": 100000
+    },
+    {
+      "_id": "a7421387-4d5e-719a-6a446f384303",
+      "name": "Admin / Account",
+      "containerId": "",
+      "created": "2026-01-01T00:00:00.000Z",
+      "sortNum": 110000
+    },
+    {
+      "_id": "0ebba2ec-9122-d583-6227c90fdc69",
+      "name": "Admin / Operations",
+      "containerId": "",
+      "created": "2026-01-01T00:00:00.000Z",
+      "sortNum": 120000
+    }
+  ],
+  "requests": [
+    {
+      "_id": "8a80bfc7-7a06-11a7-170c70920e61",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "092d4b43-9097-d7e8-cbdf19534394",
+      "name": "Health",
+      "url": "{{baseUrl}}/api/health",
+      "method": "GET",
+      "sortNum": 10000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "0a802309-fa41-461e-35e71d2f7dde",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "092d4b43-9097-d7e8-cbdf19534394",
+      "name": "Category tree",
+      "url": "{{baseUrl}}/api/categories",
+      "method": "GET",
+      "sortNum": 20000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "5f9cfeb7-e57d-0a2d-b104eb445015",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "092d4b43-9097-d7e8-cbdf19534394",
+      "name": "Category by slug",
+      "url": "{{baseUrl}}/api/categories?slug=labrador",
+      "method": "GET",
+      "sortNum": 30000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [],
+      "params": [
+        {
+          "name": "slug",
+          "value": "labrador",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "a4f34ad1-376a-af15-350815dacf50",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "092d4b43-9097-d7e8-cbdf19534394",
+      "name": "List pets",
+      "url": "{{baseUrl}}/api/pets?type=dog&sort=price_asc&page=1&pageSize=10",
+      "method": "GET",
+      "sortNum": 40000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [],
+      "params": [
+        {
+          "name": "type",
+          "value": "dog",
+          "isPath": false
+        },
+        {
+          "name": "sort",
+          "value": "price_asc",
+          "isPath": false
+        },
+        {
+          "name": "page",
+          "value": "1",
+          "isPath": false
+        },
+        {
+          "name": "pageSize",
+          "value": "10",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "841c5e7f-7f0f-63da-873bb7545040",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "092d4b43-9097-d7e8-cbdf19534394",
+      "name": "Pet by slug",
+      "url": "{{baseUrl}}/api/pets/{{petSlug}}",
+      "method": "GET",
+      "sortNum": 50000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "38119d63-bd96-2a73-4f2d6bbb697e",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "092d4b43-9097-d7e8-cbdf19534394",
+      "name": "List products",
+      "url": "{{baseUrl}}/api/products?compatibility=dog&inStock=true",
+      "method": "GET",
+      "sortNum": 60000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [],
+      "params": [
+        {
+          "name": "compatibility",
+          "value": "dog",
+          "isPath": false
+        },
+        {
+          "name": "inStock",
+          "value": "true",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "fafbe0f0-78a6-599a-f1b474302cbb",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "092d4b43-9097-d7e8-cbdf19534394",
+      "name": "Product by slug",
+      "url": "{{baseUrl}}/api/products/{{productSlug}}",
+      "method": "GET",
+      "sortNum": 70000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "f81e6528-9c2c-5163-61c543a6ca78",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "092d4b43-9097-d7e8-cbdf19534394",
+      "name": "Public reviews",
+      "url": "{{baseUrl}}/api/reviews?targetType=product&targetId={{productId}}",
+      "method": "GET",
+      "sortNum": 80000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [],
+      "params": [
+        {
+          "name": "targetType",
+          "value": "product",
+          "isPath": false
+        },
+        {
+          "name": "targetId",
+          "value": "{{productId}}",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "78e6b740-fe10-125c-78f8ed144f4f",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "092d4b43-9097-d7e8-cbdf19534394",
+      "name": "Contact form",
+      "url": "{{baseUrl}}/api/contact",
+      "method": "POST",
+      "sortNum": 90000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Guest\",\n  \"email\": \"guest@example.com\",\n  \"subject\": \"Delivery question\",\n  \"body\": \"Where can I track my delivery?\",\n  \"category\": \"delivery\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "68ecb6c9-5e3f-fafb-cc8fb4d20ddc",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "092d4b43-9097-d7e8-cbdf19534394",
+      "name": "Razorpay webhook",
+      "url": "{{baseUrl}}/api/webhooks/razorpay",
+      "method": "POST",
+      "sortNum": 100000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "x-razorpay-signature",
+          "value": "<hmac-sha256-hex>"
+        },
+        {
+          "name": "x-razorpay-event-id",
+          "value": "evt_test_1"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"event\": \"ping\",\n  \"payload\": {}\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "9e05240b-0c79-b3b6-2f98c66ad4b9",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "092d4b43-9097-d7e8-cbdf19534394",
+      "name": "Scheduler: release expired",
+      "url": "{{baseUrl}}/api/cron/release-expired",
+      "method": "POST",
+      "sortNum": 110000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{cronSecret}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "fcb27093-7591-4974-bca457912357",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "f2e0b51c-015a-40b4-0bfb4c9879c6",
+      "name": "Google sign-in",
+      "url": "{{baseUrl}}/api/auth/google",
+      "method": "POST",
+      "sortNum": 120000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"idToken\": \"<google-id-token>\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "adb2d42d-1055-e449-9a99598b5868",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "f2e0b51c-015a-40b4-0bfb4c9879c6",
+      "name": "Sign out",
+      "url": "{{baseUrl}}/api/auth/logout",
+      "method": "POST",
+      "sortNum": 130000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "b3875d77-0c18-6a33-73395d2153c1",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "My profile",
+      "url": "{{baseUrl}}/api/me",
+      "method": "GET",
+      "sortNum": 140000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "3e1b18c7-9ff4-2cb8-3606a3ed0c06",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Update profile",
+      "url": "{{baseUrl}}/api/me",
+      "method": "PATCH",
+      "sortNum": 150000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"firstName\": \"Asha\",\n  \"phone\": \"+91 9876543210\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "3fa8ced8-49de-2b29-9189b2101d1d",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "List addresses",
+      "url": "{{baseUrl}}/api/me/addresses",
+      "method": "GET",
+      "sortNum": 160000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "de3faea8-2b9c-a0c2-a21e8078aa5b",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Add address",
+      "url": "{{baseUrl}}/api/me/addresses",
+      "method": "POST",
+      "sortNum": 170000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"label\": \"Home\",\n  \"recipientName\": \"Asha K\",\n  \"phone\": \"+91 9876543210\",\n  \"line1\": \"12 Park Street\",\n  \"city\": \"Chennai\",\n  \"state\": \"Tamil Nadu\",\n  \"postalCode\": \"600001\",\n  \"countryCode\": \"IN\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "bd24060c-fd75-2cf8-f5d6eb49600e",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Edit address",
+      "url": "{{baseUrl}}/api/me/addresses/{{addressId}}",
+      "method": "PATCH",
+      "sortNum": 180000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"landmark\": \"Near the temple\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "a1322172-60d6-ea6d-8b18792955e4",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Delete address",
+      "url": "{{baseUrl}}/api/me/addresses/{{addressId}}",
+      "method": "DELETE",
+      "sortNum": 190000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "27b745f1-578b-92e3-ea4f8262ed33",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Set default address",
+      "url": "{{baseUrl}}/api/me/addresses/{{addressId}}/default",
+      "method": "POST",
+      "sortNum": 200000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"shipping\": true,\n  \"billing\": true\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "e760b8b8-b2fd-5484-e55ff6daf4ad",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Wallet balance + statement",
+      "url": "{{baseUrl}}/api/me/wallet?page=1&pageSize=20",
+      "method": "GET",
+      "sortNum": 210000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [
+        {
+          "name": "page",
+          "value": "1",
+          "isPath": false
+        },
+        {
+          "name": "pageSize",
+          "value": "20",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "b0b3f7d4-5768-a3da-fdfb03da47c9",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Wallet top-up (Razorpay order)",
+      "url": "{{baseUrl}}/api/me/wallet/topup",
+      "method": "POST",
+      "sortNum": 220000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"amount\": 50000\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "e3fe0bd0-56bb-5879-fed24fac2eed",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "My orders",
+      "url": "{{baseUrl}}/api/me/orders?page=1&pageSize=20",
+      "method": "GET",
+      "sortNum": 230000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [
+        {
+          "name": "page",
+          "value": "1",
+          "isPath": false
+        },
+        {
+          "name": "pageSize",
+          "value": "20",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "5db15e0d-a9dd-be70-32a14bba645e",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Create order (checkout)",
+      "url": "{{baseUrl}}/api/me/orders",
+      "method": "POST",
+      "sortNum": 240000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"items\": [\n    {\n      \"itemType\": \"product\",\n      \"productId\": \"{{productId}}\",\n      \"quantity\": 2\n    },\n    {\n      \"itemType\": \"pet\",\n      \"petId\": \"{{petId}}\"\n    }\n  ],\n  \"shippingAddressId\": \"{{addressId}}\",\n  \"idempotencyKey\": \"checkout-0001-abcdef\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "28637c5f-58b9-c103-927624ac0b88",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Order detail",
+      "url": "{{baseUrl}}/api/me/orders/{{orderId}}",
+      "method": "GET",
+      "sortNum": 250000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "0544a759-e355-05f7-81b0562f5536",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Cancel my order",
+      "url": "{{baseUrl}}/api/me/orders/{{orderId}}/cancel",
+      "method": "POST",
+      "sortNum": 260000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"reason\": \"Changed my mind\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "b202fb0a-30aa-ee1c-c8ef2d68b438",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Pay: create Razorpay order",
+      "url": "{{baseUrl}}/api/me/orders/{{orderId}}/pay/razorpay",
+      "method": "POST",
+      "sortNum": 270000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "7bc5ad50-9d83-fbdc-13066f91da95",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Pay: with wallet",
+      "url": "{{baseUrl}}/api/me/orders/{{orderId}}/pay/wallet",
+      "method": "POST",
+      "sortNum": 280000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "98f7fa7d-6e3e-89ef-23c0522639fb",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Razorpay confirm",
+      "url": "{{baseUrl}}/api/me/payments/razorpay/confirm",
+      "method": "POST",
+      "sortNum": 290000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"razorpay_order_id\": \"order_XXXXXXXX\",\n  \"razorpay_payment_id\": \"pay_XXXXXXXX\",\n  \"razorpay_signature\": \"<signature>\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "7bf6fea2-9f04-885d-b31cf4b4d865",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Create review",
+      "url": "{{baseUrl}}/api/me/reviews",
+      "method": "POST",
+      "sortNum": 300000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"orderId\": \"{{orderId}}\",\n  \"orderItemId\": \"{{orderItemId}}\",\n  \"rating\": 5,\n  \"title\": \"Great\",\n  \"comment\": \"Loved it\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "11bdaa3c-a4e7-5877-2a9d48a12611",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "My tickets",
+      "url": "{{baseUrl}}/api/me/tickets",
+      "method": "GET",
+      "sortNum": 310000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "0d99ac2a-9a7b-d2fa-302bf1f245a9",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Open ticket",
+      "url": "{{baseUrl}}/api/me/tickets",
+      "method": "POST",
+      "sortNum": 320000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"subject\": \"Refund question\",\n  \"body\": \"When will my refund arrive?\",\n  \"category\": \"refund\",\n  \"orderId\": \"{{orderId}}\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "89618d39-54fb-da65-3470bda9ce7b",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Ticket detail",
+      "url": "{{baseUrl}}/api/me/tickets/{{ticketId}}?threadPage=1",
+      "method": "GET",
+      "sortNum": 330000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [
+        {
+          "name": "threadPage",
+          "value": "1",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "23e38455-80fc-b419-5c20e1b7a018",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Reply to ticket",
+      "url": "{{baseUrl}}/api/me/tickets/{{ticketId}}/reply",
+      "method": "POST",
+      "sortNum": 340000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"body\": \"Thanks for the update.\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "3dc20cc5-8aba-66e6-bb9975ecce17",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "038eddbe-e672-640b-c2098b231ebe",
+      "name": "DB status",
+      "url": "{{baseUrl}}/api/admin/db-status",
+      "method": "GET",
+      "sortNum": 350000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "e137f006-8b09-ef64-b11bf8b182a7",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "038eddbe-e672-640b-c2098b231ebe",
+      "name": "Media upload signature",
+      "url": "{{baseUrl}}/api/admin/media/sign",
+      "method": "POST",
+      "sortNum": 360000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"folder\": \"pets\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "fb502c32-1897-1da2-376e1d90bcbe",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c1d6096-dbf4-26dc-79987f60c16b",
+      "name": "Category tree (admin)",
+      "url": "{{baseUrl}}/api/admin/categories",
+      "method": "GET",
+      "sortNum": 370000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "7775e73d-c7f4-da87-19d4171b9fbf",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c1d6096-dbf4-26dc-79987f60c16b",
+      "name": "Create category",
+      "url": "{{baseUrl}}/api/admin/categories",
+      "method": "POST",
+      "sortNum": 380000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Reptiles\",\n  \"type\": \"accessory\",\n  \"description\": \"Anything reptile related\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "43e473c1-512d-1310-b8b8e479421e",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c1d6096-dbf4-26dc-79987f60c16b",
+      "name": "Get category",
+      "url": "{{baseUrl}}/api/admin/categories/{{categoryId}}",
+      "method": "GET",
+      "sortNum": 390000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "88a5fd56-6876-95b9-0a4ef7411007",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c1d6096-dbf4-26dc-79987f60c16b",
+      "name": "Edit category",
+      "url": "{{baseUrl}}/api/admin/categories/{{categoryId}}",
+      "method": "PATCH",
+      "sortNum": 400000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Reptile Supplies\",\n  \"seoTitle\": \"Reptile supplies\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "ddbb285c-4f8b-d899-c44f14f3eda3",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c1d6096-dbf4-26dc-79987f60c16b",
+      "name": "Move category",
+      "url": "{{baseUrl}}/api/admin/categories/{{categoryId}}/move",
+      "method": "POST",
+      "sortNum": 410000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"parentId\": \"{{categoryId2}}\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "b039ed23-b7e2-1e0e-6bae76e8d03f",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c1d6096-dbf4-26dc-79987f60c16b",
+      "name": "Reorder siblings",
+      "url": "{{baseUrl}}/api/admin/categories/reorder",
+      "method": "POST",
+      "sortNum": 420000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"parentId\": \"{{categoryId2}}\",\n  \"orderedIds\": [\n    \"{{categoryId}}\"\n  ]\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "b3e85aa7-f69b-f818-043deac52560",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c1d6096-dbf4-26dc-79987f60c16b",
+      "name": "Show / hide",
+      "url": "{{baseUrl}}/api/admin/categories/{{categoryId}}/visibility",
+      "method": "PATCH",
+      "sortNum": 430000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"isVisible\": false\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "2e44c775-e458-9735-e5900ffb3a9d",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c1d6096-dbf4-26dc-79987f60c16b",
+      "name": "Activate / deactivate",
+      "url": "{{baseUrl}}/api/admin/categories/{{categoryId}}/active",
+      "method": "PATCH",
+      "sortNum": 440000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"isActive\": true\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "e26a5d14-748d-1bb4-026bc92cdc47",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c1d6096-dbf4-26dc-79987f60c16b",
+      "name": "Archive category",
+      "url": "{{baseUrl}}/api/admin/categories/{{categoryId}}/archive",
+      "method": "POST",
+      "sortNum": 450000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"archiveDescendants\": false,\n  \"reassignDependentsTo\": \"{{categoryId2}}\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "b85a25f5-94e4-0bd7-a383c84edbf6",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c1d6096-dbf4-26dc-79987f60c16b",
+      "name": "Restore category",
+      "url": "{{baseUrl}}/api/admin/categories/{{categoryId}}/restore",
+      "method": "POST",
+      "sortNum": 460000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"restoreDescendants\": false\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "cb07fb0a-8d76-e604-f8df9be14099",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c1d6096-dbf4-26dc-79987f60c16b",
+      "name": "Delete category (safe)",
+      "url": "{{baseUrl}}/api/admin/categories/{{categoryId}}",
+      "method": "DELETE",
+      "sortNum": 470000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "eb36dc80-060b-b0f5-6a77f7ba835b",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c1d6096-dbf4-26dc-79987f60c16b",
+      "name": "Rebuild hierarchy (recovery)",
+      "url": "{{baseUrl}}/api/admin/categories/rebuild-hierarchy",
+      "method": "POST",
+      "sortNum": 480000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "875fc594-9664-920c-add397e78b4c",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "487b22a0-ddee-f736-59a21139574c",
+      "name": "List pets (admin)",
+      "url": "{{baseUrl}}/api/admin/pets?status=draft&page=1&pageSize=20",
+      "method": "GET",
+      "sortNum": 490000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [
+        {
+          "name": "status",
+          "value": "draft",
+          "isPath": false
+        },
+        {
+          "name": "page",
+          "value": "1",
+          "isPath": false
+        },
+        {
+          "name": "pageSize",
+          "value": "20",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "48d549d4-f9f9-a088-886a309fe5b2",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "487b22a0-ddee-f736-59a21139574c",
+      "name": "Create pet",
+      "url": "{{baseUrl}}/api/admin/pets",
+      "method": "POST",
+      "sortNum": 500000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Bruno\",\n  \"type\": \"dog\",\n  \"categoryId\": \"{{labCategoryId}}\",\n  \"breed\": \"Labrador\",\n  \"price\": 4500000,\n  \"description\": \"Friendly, vaccinated labrador puppy.\",\n  \"media\": [\n    {\n      \"kind\": \"image\",\n      \"url\": \"https://cdn.example.com/bruno.jpg\",\n      \"isPrimary\": true\n    }\n  ]\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "d1ef774c-d9ca-ad60-af76fe31cf40",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "487b22a0-ddee-f736-59a21139574c",
+      "name": "Get pet (admin)",
+      "url": "{{baseUrl}}/api/admin/pets/{{petId}}",
+      "method": "GET",
+      "sortNum": 510000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "c909f16d-d6f8-a432-1686fca367b8",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "487b22a0-ddee-f736-59a21139574c",
+      "name": "Edit pet",
+      "url": "{{baseUrl}}/api/admin/pets/{{petId}}",
+      "method": "PATCH",
+      "sortNum": 520000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"price\": 4200000,\n  \"discountType\": \"percent\",\n  \"discountValue\": 5\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "8b58be4b-0e72-7369-6cc0f62dae54",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "487b22a0-ddee-f736-59a21139574c",
+      "name": "Publish / unpublish / archive pet",
+      "url": "{{baseUrl}}/api/admin/pets/{{petId}}/publication",
+      "method": "PATCH",
+      "sortNum": 530000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"published\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "eeaa56bd-b779-fbf3-f88c6432d2a6",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "487b22a0-ddee-f736-59a21139574c",
+      "name": "Pet availability",
+      "url": "{{baseUrl}}/api/admin/pets/{{petId}}/availability",
+      "method": "PATCH",
+      "sortNum": 540000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"unavailable\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "0012e45d-a366-6ae0-8dc65e8fae55",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "8f615485-98aa-5af0-122c9f1121be",
+      "name": "List products (admin)",
+      "url": "{{baseUrl}}/api/admin/products?lowStock=true&page=1",
+      "method": "GET",
+      "sortNum": 550000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [
+        {
+          "name": "lowStock",
+          "value": "true",
+          "isPath": false
+        },
+        {
+          "name": "page",
+          "value": "1",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "92c5d56f-efc0-9135-0539bb654641",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "8f615485-98aa-5af0-122c9f1121be",
+      "name": "Create product",
+      "url": "{{baseUrl}}/api/admin/products",
+      "method": "POST",
+      "sortNum": 560000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Rope Toy\",\n  \"sku\": \"TOY-ROPE-1\",\n  \"categoryId\": \"{{accessoriesCategoryId}}\",\n  \"compatibility\": [\n    \"dog\"\n  ],\n  \"price\": 49900,\n  \"stockQuantity\": 25,\n  \"description\": \"Durable cotton rope toy.\",\n  \"media\": [\n    {\n      \"kind\": \"image\",\n      \"url\": \"https://cdn.example.com/rope.jpg\",\n      \"isPrimary\": true\n    }\n  ]\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "f2b11eb8-113c-09a0-ce0fa0384772",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "8f615485-98aa-5af0-122c9f1121be",
+      "name": "Get product (admin)",
+      "url": "{{baseUrl}}/api/admin/products/{{productId}}",
+      "method": "GET",
+      "sortNum": 570000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "a00c6c72-3d07-8036-f1a40aaa0388",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "8f615485-98aa-5af0-122c9f1121be",
+      "name": "Edit product",
+      "url": "{{baseUrl}}/api/admin/products/{{productId}}",
+      "method": "PATCH",
+      "sortNum": 580000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"price\": 52900,\n  \"isFeatured\": true\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "003cabfc-11b4-75da-2b1d38ee6726",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "8f615485-98aa-5af0-122c9f1121be",
+      "name": "Publish / unpublish / archive product",
+      "url": "{{baseUrl}}/api/admin/products/{{productId}}/publication",
+      "method": "PATCH",
+      "sortNum": 590000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"published\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "d7f40541-10ed-dbef-8afaeec431f4",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "8f615485-98aa-5af0-122c9f1121be",
+      "name": "Adjust stock",
+      "url": "{{baseUrl}}/api/admin/products/{{productId}}/stock",
+      "method": "POST",
+      "sortNum": 600000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"mode\": \"adjust\",\n  \"value\": 10\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "a9c159dc-e203-248a-3fa1b55fae2b",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "6584a055-b0f6-6d5f-cc0df19aedfb",
+      "name": "List orders",
+      "url": "{{baseUrl}}/api/admin/orders?status=placed&paymentStatus=pending&page=1",
+      "method": "GET",
+      "sortNum": 610000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [
+        {
+          "name": "status",
+          "value": "placed",
+          "isPath": false
+        },
+        {
+          "name": "paymentStatus",
+          "value": "pending",
+          "isPath": false
+        },
+        {
+          "name": "page",
+          "value": "1",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "830055de-22a9-3c13-7ff3cb286696",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "6584a055-b0f6-6d5f-cc0df19aedfb",
+      "name": "Order detail",
+      "url": "{{baseUrl}}/api/admin/orders/{{orderId}}",
+      "method": "GET",
+      "sortNum": 620000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "af0b595f-cb91-0fbc-58a99227b490",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "6584a055-b0f6-6d5f-cc0df19aedfb",
+      "name": "Change status",
+      "url": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+      "method": "POST",
+      "sortNum": 630000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"accepted\",\n  \"note\": \"Verified\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "dd930fb3-a71a-b753-0ffe4642ca12",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "6584a055-b0f6-6d5f-cc0df19aedfb",
+      "name": "Cancel order",
+      "url": "{{baseUrl}}/api/admin/orders/{{orderId}}/cancel",
+      "method": "POST",
+      "sortNum": 640000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"reason\": \"Out of stock\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "f2276af6-9bda-8987-f352bcc79b6e",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "6584a055-b0f6-6d5f-cc0df19aedfb",
+      "name": "Update shipping",
+      "url": "{{baseUrl}}/api/admin/orders/{{orderId}}/shipping",
+      "method": "PATCH",
+      "sortNum": 650000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"partner\": \"Delhivery\",\n  \"trackingNumber\": \"DLV123456\",\n  \"trackingUrl\": \"https://track.example.com/DLV123456\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "91e16148-3170-51cf-b89dae267b0d",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "6584a055-b0f6-6d5f-cc0df19aedfb",
+      "name": "Set admin note",
+      "url": "{{baseUrl}}/api/admin/orders/{{orderId}}/note",
+      "method": "PATCH",
+      "sortNum": 660000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"adminNote\": \"Call before delivery\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "b526deb1-ccf5-742d-6fcba211c583",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "6584a055-b0f6-6d5f-cc0df19aedfb",
+      "name": "Refund order",
+      "url": "{{baseUrl}}/api/admin/orders/{{orderId}}/refund",
+      "method": "POST",
+      "sortNum": 670000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"amount\": 10000,\n  \"reason\": \"Damaged item\",\n  \"destination\": \"wallet\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "f3fda5db-449b-9666-78742369d689",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c16dec1-a2e5-f394-60be3bd890d6",
+      "name": "List customers",
+      "url": "{{baseUrl}}/api/admin/customers?q=asha@example.com",
+      "method": "GET",
+      "sortNum": 680000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [
+        {
+          "name": "q",
+          "value": "asha@example.com",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "b7ef88cc-f7be-c900-284e0de747eb",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c16dec1-a2e5-f394-60be3bd890d6",
+      "name": "Get customer",
+      "url": "{{baseUrl}}/api/admin/customers/{{customerId}}",
+      "method": "GET",
+      "sortNum": 690000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "566a2295-97ac-e0b4-f8ebcf61de32",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c16dec1-a2e5-f394-60be3bd890d6",
+      "name": "Suspend / activate customer",
+      "url": "{{baseUrl}}/api/admin/customers/{{customerId}}/status",
+      "method": "PATCH",
+      "sortNum": 700000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"suspended\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "3ca98f9a-a0ef-b126-5ed43dd69222",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c16dec1-a2e5-f394-60be3bd890d6",
+      "name": "Customer wallet",
+      "url": "{{baseUrl}}/api/admin/customers/{{customerId}}/wallet",
+      "method": "GET",
+      "sortNum": 710000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "8a558963-2969-c9c4-58e28a52e49d",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c16dec1-a2e5-f394-60be3bd890d6",
+      "name": "Adjust wallet",
+      "url": "{{baseUrl}}/api/admin/customers/{{customerId}}/wallet/adjust",
+      "method": "POST",
+      "sortNum": 720000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"direction\": \"credit\",\n  \"amount\": 20000,\n  \"reason\": \"Goodwill credit\",\n  \"idempotencyKey\": \"adj-2026-0001\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "b5274a6c-a798-11ee-c74d16d6194c",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "5c16dec1-a2e5-f394-60be3bd890d6",
+      "name": "Reconcile wallet",
+      "url": "{{baseUrl}}/api/admin/customers/{{customerId}}/wallet/reconcile",
+      "method": "POST",
+      "sortNum": 730000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"fix\": false\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "de5b2146-9b60-73a9-58dda9cfd00d",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "88b74cc8-750a-89fa-c75bc3815448",
+      "name": "List reviews",
+      "url": "{{baseUrl}}/api/admin/reviews?status=pending",
+      "method": "GET",
+      "sortNum": 740000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [
+        {
+          "name": "status",
+          "value": "pending",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "ff91708f-1987-96d5-c8bd0827d5aa",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "88b74cc8-750a-89fa-c75bc3815448",
+      "name": "Moderate review",
+      "url": "{{baseUrl}}/api/admin/reviews/{{reviewId}}/moderation",
+      "method": "PATCH",
+      "sortNum": 750000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"approved\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "0df10859-3073-a872-01e4bc8251ed",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "88b74cc8-750a-89fa-c75bc3815448",
+      "name": "List tickets",
+      "url": "{{baseUrl}}/api/admin/tickets?status=open",
+      "method": "GET",
+      "sortNum": 760000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [
+        {
+          "name": "status",
+          "value": "open",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "d1913334-fe70-7216-6a5834d28f3e",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "88b74cc8-750a-89fa-c75bc3815448",
+      "name": "Ticket detail",
+      "url": "{{baseUrl}}/api/admin/tickets/{{ticketId}}?threadPage=1",
+      "method": "GET",
+      "sortNum": 770000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [
+        {
+          "name": "threadPage",
+          "value": "1",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "e3e95c06-3231-6a2b-c44ebeceeaf5",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "88b74cc8-750a-89fa-c75bc3815448",
+      "name": "Reply to ticket",
+      "url": "{{baseUrl}}/api/admin/tickets/{{ticketId}}/reply",
+      "method": "POST",
+      "sortNum": 780000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"body\": \"We have initiated your refund.\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "7d22935f-8e21-7d33-36ffa3284895",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "88b74cc8-750a-89fa-c75bc3815448",
+      "name": "Set ticket status",
+      "url": "{{baseUrl}}/api/admin/tickets/{{ticketId}}/status",
+      "method": "PATCH",
+      "sortNum": 790000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"status\": \"resolved\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "cb8a4445-b285-733b-ea7446626bc4",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "88b74cc8-750a-89fa-c75bc3815448",
+      "name": "Assign ticket to me",
+      "url": "{{baseUrl}}/api/admin/tickets/{{ticketId}}/assign",
+      "method": "POST",
+      "sortNum": 800000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "c8bf0fbf-5c73-229d-66f6d4247d5a",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "092d4b43-9097-d7e8-cbdf19534394",
+      "name": "Store settings (public)",
+      "url": "{{baseUrl}}/api/settings/public",
+      "method": "GET",
+      "sortNum": 810000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "2a9c644e-3235-7605-a2d3da7eeb93",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Cart",
+      "url": "{{baseUrl}}/api/me/cart",
+      "method": "GET",
+      "sortNum": 820000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "5b89df73-29d8-2308-268a9d385309",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Add to cart",
+      "url": "{{baseUrl}}/api/me/cart/items",
+      "method": "POST",
+      "sortNum": 830000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"itemType\": \"product\",\n  \"productId\": \"{{productId}}\",\n  \"quantity\": 2\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "796870bf-0b2f-707d-a9c6d6ef1c62",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Cart: change quantity",
+      "url": "{{baseUrl}}/api/me/cart/items/{{productId}}",
+      "method": "PATCH",
+      "sortNum": 840000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"quantity\": 3\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "eeec18a7-2289-0c83-97da7c515343",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Cart: remove line",
+      "url": "{{baseUrl}}/api/me/cart/items/{{productId}}",
+      "method": "DELETE",
+      "sortNum": 850000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "82052bfa-5ed0-7a02-4be3d4407119",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Cart: clear",
+      "url": "{{baseUrl}}/api/me/cart",
+      "method": "DELETE",
+      "sortNum": 860000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "05791876-0fec-ceb3-85b06c59b340",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Cart: coupon preview",
+      "url": "{{baseUrl}}/api/me/cart/coupon-preview",
+      "method": "POST",
+      "sortNum": 870000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"code\": \"WELCOME10\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "87541c1c-d52f-eebf-cee23123490d",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Checkout from cart",
+      "url": "{{baseUrl}}/api/me/cart/checkout",
+      "method": "POST",
+      "sortNum": 880000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"shippingAddressId\": \"{{addressId}}\",\n  \"couponCode\": \"WELCOME10\",\n  \"idempotencyKey\": \"cart-checkout-0001\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "bd83eb1b-1a60-9a10-a8e659135bc9",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Invoice (GST)",
+      "url": "{{baseUrl}}/api/me/orders/{{orderId}}/invoice",
+      "method": "GET",
+      "sortNum": 890000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "288bc73e-ff26-17a0-21791b71f005",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "My returns",
+      "url": "{{baseUrl}}/api/me/returns",
+      "method": "GET",
+      "sortNum": 900000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "ac27a06a-7d27-7c91-83bd64936d70",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Request a return",
+      "url": "{{baseUrl}}/api/me/returns",
+      "method": "POST",
+      "sortNum": 910000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"orderId\": \"{{orderId}}\",\n  \"orderItemId\": \"{{orderItemId}}\",\n  \"quantity\": 1,\n  \"reason\": \"damaged\",\n  \"details\": \"Arrived broken\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "4b7881ad-7e55-a364-72ca5852db8b",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Export my data",
+      "url": "{{baseUrl}}/api/me/privacy/export",
+      "method": "GET",
+      "sortNum": 920000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "51865cdb-83c4-3ae2-ad4817061b94",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Delete my account",
+      "url": "{{baseUrl}}/api/me/privacy/delete",
+      "method": "POST",
+      "sortNum": 930000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"confirm\": \"DELETE MY ACCOUNT\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "4105510b-065c-5ca9-795b944b7252",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "3d44fcfe-785d-6f1e-52b8e74ee32b",
+      "name": "Sign review-photo upload",
+      "url": "{{baseUrl}}/api/me/uploads/sign",
+      "method": "POST",
+      "sortNum": 940000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{customerToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "b646ccdf-c85c-fe6e-486b0c94e39c",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "a7421387-4d5e-719a-6a446f384303",
+      "name": "Admin login",
+      "url": "{{baseUrl}}/api/admin/auth/login",
+      "method": "POST",
+      "sortNum": 950000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"owner@petblitz.in\",\n  \"password\": \"<password>\",\n  \"totp\": \"123456\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "48b5cd51-04b6-2dae-a291bcaea1ee",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "a7421387-4d5e-719a-6a446f384303",
+      "name": "Who am I",
+      "url": "{{baseUrl}}/api/admin/auth/me",
+      "method": "GET",
+      "sortNum": 960000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "dc875d39-dcaa-eadf-18a7846afbd6",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "a7421387-4d5e-719a-6a446f384303",
+      "name": "Admin logout",
+      "url": "{{baseUrl}}/api/admin/auth/logout",
+      "method": "POST",
+      "sortNum": 970000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "8d16ad3f-4b8c-46fb-9e1f2468a78f",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "a7421387-4d5e-719a-6a446f384303",
+      "name": "Change my password",
+      "url": "{{baseUrl}}/api/admin/auth/password",
+      "method": "POST",
+      "sortNum": 980000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"current\": \"old-password\",\n  \"next\": \"A-new-strong-passphrase-1\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "d284bcf4-b4a1-8986-75d1ecf992d4",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "a7421387-4d5e-719a-6a446f384303",
+      "name": "MFA: start setup",
+      "url": "{{baseUrl}}/api/admin/auth/mfa/setup",
+      "method": "POST",
+      "sortNum": 990000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "a7eb4b44-0c38-1904-7d294f8fdbd3",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "a7421387-4d5e-719a-6a446f384303",
+      "name": "MFA: enable",
+      "url": "{{baseUrl}}/api/admin/auth/mfa/enable",
+      "method": "POST",
+      "sortNum": 1000000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"code\": \"123456\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "9e9b33a0-b211-e368-54cc86125641",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "a7421387-4d5e-719a-6a446f384303",
+      "name": "MFA: disable",
+      "url": "{{baseUrl}}/api/admin/auth/mfa/disable",
+      "method": "POST",
+      "sortNum": 1010000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"password\": \"<password>\",\n  \"code\": \"123456\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "65bff8c2-a777-42bd-d8f3324bc735",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "a7421387-4d5e-719a-6a446f384303",
+      "name": "List admins",
+      "url": "{{baseUrl}}/api/admin/admins",
+      "method": "GET",
+      "sortNum": 1020000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "c919e99a-7f46-374c-045522e9aa73",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "a7421387-4d5e-719a-6a446f384303",
+      "name": "Create admin",
+      "url": "{{baseUrl}}/api/admin/admins",
+      "method": "POST",
+      "sortNum": 1030000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"ops@petblitz.in\",\n  \"name\": \"Ops Lead\",\n  \"role\": \"orders\",\n  \"password\": \"A-strong-passphrase-42\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "12c4a0c9-06e7-b738-80e68bd64503",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "a7421387-4d5e-719a-6a446f384303",
+      "name": "Update admin (role / active)",
+      "url": "{{baseUrl}}/api/admin/admins/{{adminId}}",
+      "method": "PATCH",
+      "sortNum": 1040000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"role\": \"support\",\n  \"isActive\": true\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "76add88d-5895-63a1-5a5efcb6c597",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "a7421387-4d5e-719a-6a446f384303",
+      "name": "Reset admin password",
+      "url": "{{baseUrl}}/api/admin/admins/{{adminId}}/reset-password",
+      "method": "POST",
+      "sortNum": 1050000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"password\": \"Another-strong-passphrase-7\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "a1af0e38-5b8f-75ff-40ae4f1912d8",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "a7421387-4d5e-719a-6a446f384303",
+      "name": "Audit log",
+      "url": "{{baseUrl}}/api/admin/audit-logs?page=1&method=POST",
+      "method": "GET",
+      "sortNum": 1060000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [
+        {
+          "name": "page",
+          "value": "1",
+          "isPath": false
+        },
+        {
+          "name": "method",
+          "value": "POST",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "79f26b65-f951-7a76-e96862c4e06b",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "0ebba2ec-9122-d583-6227c90fdc69",
+      "name": "Dashboard",
+      "url": "{{baseUrl}}/api/admin/dashboard",
+      "method": "GET",
+      "sortNum": 1070000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "8e86b00e-2d72-0e5d-ed05737f047e",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "0ebba2ec-9122-d583-6227c90fdc69",
+      "name": "Get settings",
+      "url": "{{baseUrl}}/api/admin/settings",
+      "method": "GET",
+      "sortNum": 1080000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "3c8a50b8-0d74-6e16-a094949f757c",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "0ebba2ec-9122-d583-6227c90fdc69",
+      "name": "Update settings",
+      "url": "{{baseUrl}}/api/admin/settings",
+      "method": "PATCH",
+      "sortNum": 1090000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"shipping\": {\n    \"baseFeeMinor\": 6000,\n    \"freeAboveMinor\": 99900,\n    \"stateFees\": {\n      \"33\": 4000\n    }\n  },\n  \"tax\": {\n    \"pricesIncludeTax\": true,\n    \"sellerStateCode\": \"33\",\n    \"sellerGstin\": \"33ABCDE1234F1Z5\",\n    \"legalName\": \"PetBlitz\",\n    \"invoicePrefix\": \"PB\"\n  },\n  \"returns\": {\n    \"windowDays\": 7,\n    \"petsReturnable\": false\n  }\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "f4256f27-29d1-053f-d48eed74cb93",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "0ebba2ec-9122-d583-6227c90fdc69",
+      "name": "List coupons",
+      "url": "{{baseUrl}}/api/admin/coupons?page=1",
+      "method": "GET",
+      "sortNum": 1100000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [
+        {
+          "name": "page",
+          "value": "1",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "d07536f0-bee0-5f0f-24540da9a22a",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "0ebba2ec-9122-d583-6227c90fdc69",
+      "name": "Create coupon",
+      "url": "{{baseUrl}}/api/admin/coupons",
+      "method": "POST",
+      "sortNum": 1110000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"code\": \"WELCOME10\",\n  \"description\": \"10% off\",\n  \"type\": \"percent\",\n  \"value\": 10,\n  \"minOrderMinor\": 50000,\n  \"maxDiscountMinor\": 20000,\n  \"perCustomerLimit\": 1\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "a667876b-2266-d683-7cf5ce651dfe",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "0ebba2ec-9122-d583-6227c90fdc69",
+      "name": "Update coupon",
+      "url": "{{baseUrl}}/api/admin/coupons/{{couponId}}",
+      "method": "PATCH",
+      "sortNum": 1120000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"isActive\": false\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "9fb0e62a-73b4-363d-6c3b4d785efb",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "0ebba2ec-9122-d583-6227c90fdc69",
+      "name": "Issue invoice",
+      "url": "{{baseUrl}}/api/admin/orders/{{orderId}}/invoice",
+      "method": "POST",
+      "sortNum": 1130000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "201"
+        }
+      ]
+    },
+    {
+      "_id": "69bfc4e8-6565-6bae-af4bf7092a3a",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "0ebba2ec-9122-d583-6227c90fdc69",
+      "name": "List returns",
+      "url": "{{baseUrl}}/api/admin/returns?status=requested",
+      "method": "GET",
+      "sortNum": 1140000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        }
+      ],
+      "params": [
+        {
+          "name": "status",
+          "value": "requested",
+          "isPath": false
+        }
+      ],
+      "body": {
+        "type": "none",
+        "raw": "",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "fd88a3c1-3c21-3dd4-9084750a9fcc",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "0ebba2ec-9122-d583-6227c90fdc69",
+      "name": "Act on return",
+      "url": "{{baseUrl}}/api/admin/returns/{{returnId}}/action",
+      "method": "POST",
+      "sortNum": 1150000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"action\": \"approve\",\n  \"note\": \"Please ship it back\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "_id": "5549aaf6-6d96-291d-da62e67f5a20",
+      "colId": "fe8fd332-ddf2-193b-de950d26de7f",
+      "containerId": "0ebba2ec-9122-d583-6227c90fdc69",
+      "name": "Refund return",
+      "url": "{{baseUrl}}/api/admin/returns/{{returnId}}/refund",
+      "method": "POST",
+      "sortNum": 1160000,
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{adminKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"destination\": \"wallet\"\n}",
+        "form": []
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    }
+  ]
+}
