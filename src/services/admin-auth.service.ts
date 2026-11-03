@@ -32,7 +32,7 @@ export async function createAdmin(i: { email: string; name: string; role: AdminR
 /** Password (+ TOTP or recovery code when MFA is on). Generic error text for every failure; 5 failures lock the account for 15 min. */
 export async function loginAdmin(i: { email: string; password: string; totp?: string; recoveryCode?: string }, ctx: { ip?: string; userAgent?: string }) {
   await connectDB();
-  const env = getEnv();
+  getEnv(); // validates environment
   const email = i.email.trim().toLowerCase();
   const a = await AdminUser.findOne({ email });
   const fail = () => new AppError("INVALID_CREDENTIALS", 401, "Invalid e-mail, password or code");
@@ -75,7 +75,7 @@ export async function loginAdminWithGoogle(profile: { email: string; email_verif
   const email = profile.email.trim().toLowerCase();
   const denied = () => new AppError("FORBIDDEN", 403, "This Google account is not authorised for the admin portal");
   if (!profile.email_verified) throw denied();
-  let a = await AdminUser.findOne({ email });
+  const a = await AdminUser.findOne({ email });
   if (!a || !a.isActive) throw denied(); // only admins stored in the database may sign in with Google
   if (a.lockedUntil && a.lockedUntil > new Date()) throw new AppError("ACCOUNT_LOCKED", 423, "Too many failed attempts. Try again later.");
   return startAdminSession(a as never, ctx);

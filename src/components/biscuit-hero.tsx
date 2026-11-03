@@ -127,18 +127,13 @@ export function BiscuitHero() {
     <section className="bh" ref={root}>
       <div className="bh-deco" aria-hidden="true">
         <div className="bh-word">PETBLITZ</div>
-        {[0, 1].map((t) => (
-          <div key={t} className={"bh-trail t" + t}>
-            {Array.from({ length: 12 }, (_, i) => (
-              <svg key={i} className={i % 2 ? "paw odd" : "paw"} viewBox="0 0 64 64" style={{ left: `${i * 8.5}%`, animationDelay: `${i * 0.45}s` }}>
-                <ellipse cx="32" cy="42" rx="14" ry="12" /><ellipse cx="14" cy="26" rx="6" ry="8" /><ellipse cx="25" cy="14" rx="6" ry="8" /><ellipse cx="39" cy="14" rx="6" ry="8" /><ellipse cx="50" cy="26" rx="6" ry="8" />
-              </svg>
-            ))}
-          </div>
-        ))}
-        {["🐾", "🦴", "🐟", "❤️", "🐱", "🐶", "🧶", "🐾", "🦴", "🐠"].map((e, i) => (
-          <span key={i} className={"fl f" + i}>{e}</span>
-        ))}
+        <div className="bh-trail">
+          {Array.from({ length: 5 }, (_, i) => (
+            <svg key={i} className={i % 2 ? "paw odd" : "paw"} viewBox="0 0 64 64" style={{ left: `${i * 18}%` }}>
+              <ellipse cx="32" cy="42" rx="14" ry="12" /><ellipse cx="14" cy="26" rx="6" ry="8" /><ellipse cx="25" cy="14" rx="6" ry="8" /><ellipse cx="39" cy="14" rx="6" ry="8" /><ellipse cx="50" cy="26" rx="6" ry="8" />
+            </svg>
+          ))}
+        </div>
       </div>
       <div className="copy">
         <h1>Say hello to Biscuit.</h1>

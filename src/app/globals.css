@@ -280,7 +280,7 @@ html::-webkit-scrollbar,.modal::-webkit-scrollbar,.tw::-webkit-scrollbar{width:8
 .bh-btn.alt{background:transparent;box-shadow:inset 0 0 0 2px var(--bh-ink)}
 .bh-btn:hover{transform:translateY(-2px)}
 .bh-btn:focus-visible,.bh .wrap:focus-visible{outline:3px solid var(--bh-ink);outline-offset:4px}
-.bh .wrap{position:relative;width:100%;aspect-ratio:720/740;max-height:70svh;justify-self:center;border-radius:32px;touch-action:pan-y;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
+.bh .wrap{position:relative;width:100%;aspect-ratio:720/740;max-height:70svh;justify-self:center;border-radius:32px;touch-action:pan-y;-webkit-tap-highlight-color:transparent;user-select:none}
 .bh .blob{position:absolute;left:50%;top:52%;width:86%;aspect-ratio:1;transform:translate(-50%,-50%);background:var(--bh-blob);border-radius:50%}
 .bh .stage{position:absolute;left:50%;top:50%;width:720px;height:740px;transform-origin:0 0}
 .bh .stage>*,.bh .pup>*,.bh .head>*{position:absolute;display:block;max-width:none;pointer-events:none}
@@ -300,19 +300,12 @@ html::-webkit-scrollbar,.modal::-webkit-scrollbar,.tw::-webkit-scrollbar{width:8
 .bh{position:relative;isolation:isolate}.bh .copy,.bh .wrap{position:relative;z-index:1}
 .bh .wrap{position:relative}
 .bh-deco{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.bh-word{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:700 clamp(80px,19vw,300px)/1 var(--font-fredoka),system-ui,sans-serif;letter-spacing:.04em;color:transparent;-webkit-text-stroke:2px rgba(15,59,64,.22);white-space:nowrap;animation:bh-pulse 6s ease-in-out infinite}
-.bh-trail{position:absolute;left:0;width:100%;height:60px}.bh-trail.t0{top:16%;transform:rotate(6deg)}.bh-trail.t1{bottom:12%;transform:rotate(-5deg)}
-.bh-trail .paw{position:absolute;width:34px;height:34px;fill:var(--bh-ink);opacity:0;top:0;animation:bh-step 5.4s ease-in-out infinite}
-.bh-trail .paw.odd{top:24px}
-.bh-trail.t1 .paw{animation-direction:normal}
-.bh .fl{position:absolute;font-size:clamp(22px,3vw,40px);opacity:.55;animation:bh-float 7s ease-in-out infinite}
-.bh .f0{left:4%;top:12%}.bh .f1{left:46%;top:8%;animation-delay:-1s}.bh .f2{right:6%;top:14%;animation-delay:-2s}.bh .f3{left:8%;bottom:10%;animation-delay:-3s}.bh .f4{left:40%;bottom:6%;animation-delay:-4s}
-.bh .f5{right:4%;bottom:14%;animation-delay:-5s}.bh .f6{left:28%;top:48%;animation-delay:-2.5s}.bh .f7{right:30%;top:6%;animation-delay:-1.5s}.bh .f8{right:12%;top:52%;animation-delay:-3.5s}.bh .f9{left:2%;top:52%;animation-delay:-4.5s}
-@keyframes bh-step{0%{opacity:0;transform:scale(.6)}15%{opacity:.35;transform:scale(1)}60%{opacity:.25}100%{opacity:0;transform:scale(1)}}
-@keyframes bh-float{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-22px) rotate(10deg)}}
-@keyframes bh-pulse{0%,100%{-webkit-text-stroke-color:rgba(15,59,64,.18)}50%{-webkit-text-stroke-color:rgba(15,59,64,.38)}}
-@media(prefers-reduced-motion:reduce){.bh-word,.bh-trail .paw,.bh .fl{animation:none}.bh-trail .paw{opacity:.2}}
-@media(max-width:860px){.bh .fl{font-size:22px}.bh-trail .paw{width:24px;height:24px}.bh{grid-template-columns:1fr;min-height:0;padding-bottom:36px;border-radius:20px}.bh .wrap{max-height:none;width:min(100%,420px)}}
+.bh-word{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:700 clamp(36px,12vw,180px)/1 var(--font-fredoka),system-ui,sans-serif;letter-spacing:.03em;color:rgba(15,59,64,.09);-webkit-text-stroke:0;white-space:nowrap}
+.bh-trail{position:absolute;left:8%;top:16%;width:48%;height:60px;transform:rotate(6deg)}
+.bh-trail .paw{position:absolute;width:30px;height:30px;fill:var(--bh-ink);opacity:.09;top:0}
+.bh-trail .paw.odd{top:20px;opacity:.07}
+.bh,.bh *{cursor:url("/bone-cursor.svg") 8 8,pointer}
+@media(max-width:860px){.bh-trail .paw{width:24px;height:24px}.bh{grid-template-columns:1fr;min-height:0;padding-bottom:36px;border-radius:20px}.bh .wrap{max-height:none;width:min(100%,420px)}}
 @media(max-width:480px){.bh-btn{padding:14px 20px;font-size:16px;flex:1;text-align:center}}
 /* larger navbar */
 .hdr .in{padding:16px 0;gap:24px}

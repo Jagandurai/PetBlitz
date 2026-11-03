@@ -10,11 +10,11 @@ import { AdminCtx, AdminMe } from "@/lib/ui/admin";
 import { useToast } from "@/lib/ui/hooks";
 
 const NAV: { group: string; items: [string, string, string, ReactNode][] }[] = [
-  { group: "Overview", items: [["/admin", "Dashboard", "orders.read", <FiBarChart2 />]] },
-  { group: "Sales", items: [["/admin/orders", "Orders", "orders.read", <FiFileText />], ["/admin/returns", "Returns", "orders.read", <FiCornerUpLeft />], ["/admin/customers", "Customers", "customers.read", <FiUsers />], ["/admin/coupons", "Coupons", "catalog.read", <FiTag />]] },
-  { group: "Catalog", items: [["/admin/categories", "Categories", "catalog.read", <FiLayers />], ["/admin/pets", "Pets", "catalog.read", <FaDog />], ["/admin/products", "Products", "catalog.read", <FiPackage />]] },
-  { group: "Community", items: [["/admin/reviews", "Reviews", "support.read", <FiStar />], ["/admin/tickets", "Support tickets", "support.read", <FiMessageSquare />]] },
-  { group: "System", items: [["/admin/settings", "Store settings", "settings.read", <FiSettings />], ["/admin/admins", "Admins", "admins.manage", <FiShield />], ["/admin/audit", "Audit log", "audit.read", <FiList />], ["/admin/account", "Account & security", "", <FiLock />]] },
+  { group: "Overview", items: [["/admin", "Dashboard", "orders.read", <FiBarChart2 key="/admin" />]] },
+  { group: "Sales", items: [["/admin/orders", "Orders", "orders.read", <FiFileText key="/admin/orders" />], ["/admin/returns", "Returns", "orders.read", <FiCornerUpLeft key="/admin/returns" />], ["/admin/customers", "Customers", "customers.read", <FiUsers key="/admin/customers" />], ["/admin/coupons", "Coupons", "catalog.read", <FiTag key="/admin/coupons" />]] },
+  { group: "Catalog", items: [["/admin/categories", "Categories", "catalog.read", <FiLayers key="/admin/categories" />], ["/admin/pets", "Pets", "catalog.read", <FaDog key="/admin/pets" />], ["/admin/products", "Products", "catalog.read", <FiPackage key="/admin/products" />]] },
+  { group: "Community", items: [["/admin/reviews", "Reviews", "support.read", <FiStar key="/admin/reviews" />], ["/admin/tickets", "Support tickets", "support.read", <FiMessageSquare key="/admin/tickets" />]] },
+  { group: "System", items: [["/admin/settings", "Store settings", "settings.read", <FiSettings key="/admin/settings" />], ["/admin/admins", "Admins", "admins.manage", <FiShield key="/admin/admins" />], ["/admin/audit", "Audit log", "audit.read", <FiList key="/admin/audit" />], ["/admin/account", "Account & security", "", <FiLock key="/admin/account" />]] },
 ];
 
 export default function PortalLayout({ children }: { children: ReactNode }) {
