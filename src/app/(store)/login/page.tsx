@@ -1,14 +1,26 @@
 "use client";
+/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
-import { FiHeart, FiPackage, FiRefreshCw, FiShield } from "react-icons/fi";
+import { FiAlertCircle, FiHeart, FiLock, FiPackage, FiRefreshCw, FiShield } from "react-icons/fi";
+import { FaPaw } from "react-icons/fa6";
+import { homeFonts } from "@/components/home/fonts";
 import { Skel } from "@/components/store/ui";
 import { PublicSettings } from "@/components/store/types";
 import { api, errText } from "@/lib/ui/api";
 import { useApi, useAuth } from "@/lib/ui/hooks";
+import "./login.css";
 
 declare global { interface Window { google?: { accounts: { id: { initialize(o: Record<string, unknown>): void; renderButton(el: HTMLElement, o: Record<string, unknown>): void } } } } }
+
+const BENEFITS = [
+  { icon: FiPackage, title: "Track every order", text: "From packing to delivery" },
+  { icon: FiRefreshCw, title: "Instant wallet refunds", text: "Back to your PetBlitz wallet" },
+  { icon: FiHeart, title: "Saved for you", text: "Your cart and addresses on any device" },
+  { icon: FiShield, title: "No new password", text: "Nothing extra to remember or leak" },
+];
 
 function LoginInner() {
   const { me, refresh } = useAuth();
@@ -24,25 +36,42 @@ function LoginInner() {
     const el = btn.current;
     const init = () => {
       window.google?.accounts.id.initialize({ client_id: s.googleClientId, callback: async (r: { credential: string }) => { try { await api("/api/auth/google", { method: "POST", body: { idToken: r.credential } }); await refresh(); } catch (e) { setErr(errText(e)); } } });
-      window.google?.accounts.id.renderButton(el, { theme: "outline", size: "large", shape: "pill", text: "continue_with", width: 300 });
+      // Google's button has a fixed pixel width, so fit it to narrow screens
+      window.google?.accounts.id.renderButton(el, { theme: "outline", size: "large", shape: "pill", text: "continue_with", width: Math.max(200, Math.min(320, el.clientWidth)) });
     };
     if (window.google) { init(); return; }
     const sc = document.createElement("script"); sc.src = "https://accounts.google.com/gsi/client"; sc.async = true; sc.onload = init; sc.onerror = () => setErr("Could not load Google sign-in. Check your connection and try again."); document.head.appendChild(sc);
   }, [s, refresh]);
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 22, maxWidth: 900, margin: "20px auto" }}>
-      <div className="sf-box" style={{ background: "linear-gradient(150deg,#0b5a54,#14b8a6)", color: "#fff", border: 0 }}>
-        <h2 style={{ fontSize: "1.5rem" }}>Everything for your pet, one account</h2>
-        {[[FiPackage, "Track every order, from packing to delivery"], [FiRefreshCw, "Instant refunds to your PetBlitz wallet"], [FiHeart, "Save your cart and addresses on any device"], [FiShield, "Secure — no password to remember or leak"]].map(([I, t]) => { const Icon = I as typeof FiHeart; return <p key={t as string} style={{ display: "flex", gap: 10, alignItems: "center" }}><Icon size={20} />{t as string}</p>; })}
-      </div>
-      <div className="sf-box" style={{ textAlign: "center", alignSelf: "center" }}>
-        <h1 style={{ marginTop: 0 }}>Sign in or create account</h1>
-        <p style={{ color: "var(--mu)" }}>Continue with Google — new customers are registered automatically.</p>
-        {err && <div className="sf-fs" style={{ background: "#fdecec", color: "var(--deal)" }}>{err}</div>}
-        {s && !s.googleClientId && <div className="sf-fs" style={{ background: "#fef3e2", color: "#b54708" }}>Google sign-in isn&apos;t configured yet.</div>}
-        <div ref={btn} style={{ display: "flex", justifyContent: "center", minHeight: 44, margin: "14px 0" }} />
-        <p className="small" style={{ color: "var(--mu)" }}>By continuing you agree to our <Link href="/terms" style={{ textDecoration: "underline" }}>Terms</Link> and <Link href="/privacy-policy" style={{ textDecoration: "underline" }}>Privacy policy</Link>.</p>
-      </div>
+    <div className={`lgn ${homeFonts}`}>
+      <section className="lgn-form" aria-labelledby="lgn-title">
+        <img className="lgn-logo" src="/logo.webp" alt="PetBlitz" width={1166} height={768} />
+        <p className="lgn-hello"><FaPaw aria-hidden="true" /> Welcome, pet parent</p>
+        <h1 id="lgn-title">Sign in or create your account</h1>
+        <p className="lgn-sub">Continue with Google. New customers are registered automatically.</p>
+        {err && <div className="lgn-alert error" role="alert"><FiAlertCircle aria-hidden="true" />{err}</div>}
+        {s && !s.googleClientId && <div className="lgn-alert warn" role="status"><FiAlertCircle aria-hidden="true" />Google sign-in isn&apos;t configured yet.</div>}
+        <div className="lgn-google">
+          {/* Google draws its button into this box; the placeholder shows until it does */}
+          <div ref={btn} className="lgn-gbtn" />
+          {(!s || s.googleClientId) && !err && <span className="lgn-wait" aria-hidden="true">Loading Google sign-in…</span>}
+        </div>
+        <p className="lgn-safe"><FiLock aria-hidden="true" /> Sign-in is handled by Google. We never see your Google password.</p>
+        <p className="lgn-terms">By continuing you agree to our <Link href="/terms">Terms</Link> and <Link href="/privacy-policy">Privacy policy</Link>.</p>
+        <Link href="/products" className="lgn-browse">Just looking? Browse accessories →</Link>
+      </section>
+
+      <aside className="lgn-side" aria-labelledby="lgn-why">
+        <FaPaw className="lgn-paw one" aria-hidden="true" />
+        <FaPaw className="lgn-paw two" aria-hidden="true" />
+        <div className="lgn-copy">
+          <h2 id="lgn-why">Everything for your pet, one account</h2>
+          <ul>
+            {BENEFITS.map(({ icon: Icon, title, text }) => <li key={title}><i><Icon aria-hidden="true" /></i><span><b>{title}</b>{text}</span></li>)}
+          </ul>
+        </div>
+        <Image className="lgn-pets" src="/images/home/about-pet-trio.webp" alt="A tabby kitten and two puppies peeking up" width={1400} height={524} sizes="(max-width: 860px) 90vw, 520px" priority />
+      </aside>
     </div>
   );
 }

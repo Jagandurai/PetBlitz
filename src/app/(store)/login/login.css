@@ -1,0 +1,61 @@
+/* Customer sign-in. Scoped to .lgn. */
+.sf .lgn{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);grid-template-areas:"side form";width:100%;max-width:1060px;margin:14px auto 0;overflow:hidden;border:1px solid #e2e9e3;border-radius:30px;background:#fff;box-shadow:0 40px 70px -48px rgba(10,60,45,.65);font-family:var(--hp-sans),system-ui,sans-serif;animation:lgn-in .5s cubic-bezier(.2,.7,.2,1)}
+@keyframes lgn-in{from{opacity:0;transform:translateY(14px)}}
+.sf .lgn h1,.sf .lgn h2{font-family:var(--hp-serif),Georgia,serif;line-height:1.18}
+
+/* ───── sign-in ───── */
+.sf .lgn-form{grid-area:form;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;padding:40px 44px;text-align:center}
+.sf .lgn-logo{width:132px;height:auto;margin-bottom:6px}
+.sf .lgn-hello{display:inline-flex;align-items:center;gap:7px;margin:0;padding:5px 14px;border-radius:999px;background:#e8f4ef;font-size:.8rem;font-weight:700;color:#0A4C31}
+.sf .lgn-hello svg{color:#0f766e}
+.sf .lgn h1{margin:14px 0 8px;font-size:clamp(1.5rem,3vw,2rem);color:#0b2f24}
+.sf .lgn-sub{max-width:34ch;margin:0;line-height:1.6;color:#5b6b66}
+.sf .lgn-alert{display:flex;align-items:flex-start;gap:9px;width:100%;max-width:340px;margin-top:16px;padding:11px 14px;border-radius:12px;font-size:.88rem;line-height:1.5;text-align:left}
+.sf .lgn-alert svg{flex:none;margin-top:3px}
+.sf .lgn-alert.error{background:#fdecec;color:#b42318}.sf .lgn-alert.warn{background:#fff4e2;color:#93500a}
+
+.sf .lgn-google{position:relative;display:flex;justify-content:center;align-items:center;width:100%;max-width:352px;min-height:72px;margin:22px 0 12px;padding:13px 15px;border:1px solid #dcebe4;border-radius:20px;background:linear-gradient(180deg,#f8fcfa,#eef7f2)}
+.sf .lgn-gbtn{position:relative;z-index:1;display:flex;justify-content:center;width:100%;min-height:44px}
+.sf .lgn-wait{position:absolute;inset:0;display:grid;place-items:center;font-size:.84rem;color:#7d8b86}
+.sf .lgn-gbtn:not(:empty)+.lgn-wait{display:none}
+
+.sf .lgn-safe{display:flex;align-items:flex-start;justify-content:center;gap:7px;max-width:36ch;margin:0;font-size:.8rem;line-height:1.5;color:#4d6159}
+.sf .lgn-safe svg{flex:none;margin-top:3px;color:#0f766e}
+.sf .lgn-terms{width:100%;max-width:352px;margin:20px 0 0;padding-top:16px;border-top:1px solid #edf1ee;font-size:.8rem;line-height:1.6;color:#6b7975}
+.sf .lgn-terms a{color:#0b5a54;font-weight:700;text-decoration:underline}
+.sf .lgn-browse{margin-top:12px;padding:6px;font-size:.87rem;font-weight:700;color:#0f766e}
+.sf .lgn-browse:hover{text-decoration:underline}
+.sf .lgn a:focus-visible{outline:2.5px solid #0f766e;outline-offset:3px;border-radius:4px}
+
+/* ───── why sign in, with the pets resting on the bottom edge ───── */
+.sf .lgn-side{grid-area:side;position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:18px;min-width:0;color:#fff;background:radial-gradient(420px 260px at 100% 0,rgba(94,234,212,.28),transparent 70%),linear-gradient(160deg,#0f7468 0,#0A4C31 55%,#06281f)}
+.sf .lgn-copy{padding:40px 38px 0}
+.sf .lgn .lgn-side h2{max-width:16ch;margin:0 0 22px;font-size:clamp(1.6rem,3vw,2.15rem);color:#fff}
+.sf .lgn-side ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0;padding:0;list-style:none}
+.sf .lgn-side li{display:flex;flex-direction:column;gap:9px;min-width:0;padding:13px;border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(255,255,255,.07);transition:background .25s,transform .25s,border-color .25s}
+.sf .lgn-side li:hover{transform:translateY(-3px);background:rgba(255,255,255,.13);border-color:rgba(153,246,228,.45)}
+.sf .lgn-side li i{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:#ccf5e9;color:#0A4C31;font-size:1.15rem}
+.sf .lgn-side li span{font-size:.78rem;line-height:1.45;color:#cde9e0}
+.sf .lgn-side li b{display:block;font-size:.9rem;color:#fff}
+.sf .lgn-pets{display:block;width:92%;max-width:500px;height:auto;margin:0 auto -2px}
+.sf .lgn-paw{position:absolute;z-index:-1;color:#fff;opacity:.07}
+.sf .lgn-paw.one{right:-24px;top:18px;width:130px;height:130px;transform:rotate(24deg)}
+.sf .lgn-paw.two{left:-14px;bottom:130px;width:70px;height:70px;transform:rotate(-22deg)}
+
+/* tablets and phones: sign-in comes first */
+@media(max-width:860px){
+.sf .lgn{grid-template-columns:minmax(0,1fr);grid-template-areas:"form" "side";max-width:560px;margin-top:4px;border-radius:24px}
+.sf .lgn-form{padding:28px 18px}
+.sf .lgn-logo{width:108px}
+.sf .lgn-copy{padding:26px 18px 0;text-align:center}
+.sf .lgn .lgn-side h2{margin:0 auto 18px;max-width:20ch}
+.sf .lgn-side ul{text-align:left}
+}
+@media(max-width:420px){
+.sf .lgn-form{padding:22px 12px}
+.sf .lgn-google{padding:12px 6px}
+.sf .lgn-side ul{grid-template-columns:minmax(0,1fr);gap:9px}
+.sf .lgn-side li{flex-direction:row;align-items:center;gap:12px;padding:10px 12px}
+.sf .lgn-side li i{flex:none}
+}
+@media(prefers-reduced-motion:reduce){.sf .lgn{animation:none}.sf .lgn-side li{transition:none}.sf .lgn-side li:hover{transform:none}}
