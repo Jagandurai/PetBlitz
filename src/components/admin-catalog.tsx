@@ -127,15 +127,15 @@ function StockBox({ id, rec, onDone }: { id: string; rec: Rec | null; onDone: ()
 // ------------------------------------------------------------------ list
 export function CatalogList() {
   const [q, setQ] = useState(""), [status, setStatus] = useState(""), [page, setPage] = useState(1), [low, setLow] = useState(false);
-  const dq = useDebounced(q);
+  const typed = useDebounced(q.trim(), 250), dq = q.trim() ? typed : ""; // clearing the box takes effect at once
   const { data, loading, error, reload } = useApi<{ items: Rec[]; total: number; totalPages: number }>(`/api/admin/products${qs({ q: dq, status, page, pageSize: 20, lowStock: low ? "true" : undefined })}`);
   const { run } = useAction();
   const quick = async (r: Rec, st: string) => { if (await run(() => api(`/api/admin/products/${r._id}/publication`, { method: "PATCH", body: { status: st } }), `${r.name}: ${st}`)) reload(); };
   return (
     <div className="set pl">
       <div className="top"><div><h1>Products</h1><p className="muted small" style={{ margin: 0 }}>Manage your product catalog, stock and publishing.{data ? ` ${data.total} total.` : ""}</p></div><Can perm="catalog.write"><Link className="btn" href="/admin/products/new"><FiPlus /> New product</Link></Can></div>
-      <div className="set-card pl-filter"><div className="grow"><TextField label="Search" value={q} onChange={(v) => { setQ(v); setPage(1); }} placeholder="Name, SKU, brand" /></div><Select label="Status" value={status} onChange={(v) => { setStatus(v); setPage(1); }} options={[{ value: "", label: "All" }, { value: "draft", label: "Draft" }, { value: "published", label: "Published" }, { value: "archived", label: "Archived" }]} /><Check label="Low stock only" checked={low} onChange={(v) => { setLow(v); setPage(1); }} /></div>
-      {loading ? <Spinner /> : error ? <ErrorBox msg={error} retry={reload} /> : !data?.items.length ? <Empty>Nothing found.</Empty> : (
+      <div className="set-card pl-filter"><div className="grow"><TextField label="Search" type="search" value={q} onChange={(v) => { setQ(v); setPage(1); }} placeholder="Name, SKU, brand" maxLength={100} /></div><Select label="Status" value={status} onChange={(v) => { setStatus(v); setPage(1); }} options={[{ value: "", label: "All" }, { value: "draft", label: "Draft" }, { value: "published", label: "Published" }, { value: "archived", label: "Archived" }]} /><Check label="Low stock only" checked={low} onChange={(v) => { setLow(v); setPage(1); }} /></div>
+      {loading && !data ? <Spinner /> : error ? <ErrorBox msg={error} retry={reload} /> : !data?.items.length ? <Empty>Nothing found.</Empty> : (
         <div className="set-card pl-tbl tw"><table className="t"><thead><tr><th>Name</th><th>SKU</th><th className="right">Price</th><th>Stock</th><th>Status</th><th /></tr></thead><tbody>
           {data.items.map((r) => <tr key={r._id}><td><Link className="pl-name" href={`/admin/products/${r._id}`}>{(r.media?.find((m) => m.isPrimary) ?? r.media?.[0])?.url ? <img src={(r.media.find((m) => m.isPrimary) ?? r.media[0]!).url} alt="" /> : <span className="pl-ph"><FiImage /></span>}<span><strong>{r.name}</strong></span></Link></td><td className="pl-type">{r.sku}</td><td className="right">{inr(r.finalPrice)}{r.finalPrice < r.price && <span className="strike">{inr(r.price)}</span>}</td>
             <td><strong>{r.availableQuantity === Number.MAX_SAFE_INTEGER ? "∞" : r.availableQuantity}</strong> <Badge status={r.stockStatus ?? ""} /></td><td><Badge status={r.status} /></td>

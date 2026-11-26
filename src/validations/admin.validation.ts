@@ -3,6 +3,8 @@ import { objectId, pagination } from "./common";
 import { moderateReviewSchema } from "./review.validation";
 import { replySchema } from "./message.validation";
 import { refundSchema } from "./payment.validation";
+import { adminShippingSchema } from "./order.validation";
+import { ORDER_STATUSES } from "@/models/Order";
 
 // ---- categories
 export const moveCategorySchema = z.object({ parentId: objectId.nullable(), position: z.number().int().min(0).max(100000).optional() }).strict();
@@ -24,16 +26,17 @@ export const adminProductQuery = pagination.extend({
 }).strict();
 
 // ---- orders
-const ORDER_STATUS_NO_CANCEL = ["accepted", "confirmed", "processing", "shipped", "in_transit", "out_for_delivery", "delivered", "refund_initiated", "refunded"] as const;
-export const orderStatusSchema = z.object({ status: z.enum(ORDER_STATUS_NO_CANCEL), note: z.string().max(500).optional() }).strict(); // cancelling has its own endpoint (it refunds and releases stock)
+// "placed" is set by the system, and legacy names can no longer be chosen
+const ORDER_STATUS_NO_CANCEL = ["accepted", "packed", "dispatched", "in_transit", "delivered", "refund_initiated", "refunded"] as const;
+export const orderStatusSchema = z.object({ status: z.enum(ORDER_STATUS_NO_CANCEL), note: z.string().trim().max(500).optional(), shipping: adminShippingSchema.optional() }).strict(); // cancelling has its own endpoint (it refunds and releases stock)
 export const orderCancelSchema = z.object({ reason: z.string().trim().max(500).optional() }).strict();
 export const orderNoteSchema = z.object({ adminNote: z.string().max(2000) }).strict();
 export const orderRefundSchema = refundSchema.omit({ paymentId: true }).extend({ amount: z.number().int().min(1).optional() }).strict();
 export const adminOrderQuery = pagination.extend({
-  status: z.enum(["placed", "accepted", "confirmed", "processing", "shipped", "in_transit", "out_for_delivery", "delivered", "cancelled", "refund_initiated", "refunded"]).optional(),
+  status: z.enum([...ORDER_STATUSES, "to_ship"]).optional(),
   paymentStatus: z.enum(["pending", "paid", "failed", "partially_refunded", "refunded"]).optional(),
   customerId: objectId.optional(),
-  q: z.string().trim().min(3).max(30).optional(),
+  q: z.string().trim().min(1).max(30).optional(),
   from: z.coerce.date().optional(),
   to: z.coerce.date().optional(),
   view: z.enum(["active", "archived"]).default("active"),
@@ -47,7 +50,7 @@ export const orderDeleteRangeSchema = z.object(orderRange).strict().refine((r) =
 
 // ---- customers / wallet
 export const customerStatusSchema = z.object({ status: z.enum(["active", "suspended"]) }).strict();
-export const adminCustomerQuery = pagination.extend({ q: z.string().trim().email().optional(), status: z.enum(["active", "suspended", "deleted"]).optional() }).strict();
+export const adminCustomerQuery = pagination.extend({ q: z.string().trim().min(1).max(100).optional(), status: z.enum(["active", "suspended", "deleted"]).optional() }).strict();
 export const adminWalletAdjustSchema = z.object({ direction: z.enum(["credit", "debit"]), amount: z.number().int().min(1).max(100_000_00), reason: z.string().trim().min(3).max(300), idempotencyKey: z.string().min(8).max(100) }).strict();
 export const reconcileSchema = z.object({ fix: z.boolean().optional() }).strict();
 export const statementQuery = pagination.strict();

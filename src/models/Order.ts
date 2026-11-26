@@ -1,6 +1,7 @@
 import { Schema, model, models, Model, InferSchemaType, Types } from "mongoose";
 
-export const ORDER_STATUSES = ["placed", "accepted", "confirmed", "processing", "shipped", "in_transit", "out_for_delivery", "delivered", "cancelled", "refund_initiated", "refunded"] as const;
+/** Progress stages (see lib/order-status.ts), exceptional states, then legacy values kept so old orders stay readable and saveable. */
+export const ORDER_STATUSES = ["placed", "accepted", "packed", "dispatched", "in_transit", "delivered", "cancelled", "refund_initiated", "refunded", "confirmed", "processing", "shipped", "out_for_delivery"] as const;
 export const PAYMENT_STATUSES = ["pending", "paid", "failed", "partially_refunded", "refunded"] as const;
 export const FULFILLMENT_STATUSES = ["unfulfilled", "packed", "shipped", "delivered", "returned"] as const;
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
@@ -72,6 +73,7 @@ const orderSchema = new Schema(
           at: { type: Date, default: Date.now },
           actorType: { type: String, enum: ["customer", "admin", "system"], required: true },
           actorId: String,
+          actorName: { type: String, maxlength: 254 }, // admin who made the change; PRIVATE - never returned to customers
           note: { type: String, maxlength: 500 },
         },
       ],
@@ -84,7 +86,8 @@ const orderSchema = new Schema(
       shippedAt: Date,
       estimatedDelivery: Date,
       deliveredAt: Date,
-      notes: { type: String, maxlength: 1000 },
+      notes: { type: String, maxlength: 1000 }, // PRIVATE
+      customerRemarks: { type: String, maxlength: 500 },
     },
     customerNote: { type: String, maxlength: 1000 },
     adminNote: { type: String, maxlength: 2000 }, // PRIVATE - never returned to customers

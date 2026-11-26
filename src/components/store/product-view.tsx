@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FiShoppingCart, FiZap } from "react-icons/fi";
 import { Heart } from "./card";
 import Gallery from "./gallery";
-import { PurchasePerks, Related, RecentlyViewedTrack, Reviews, SectionTabs, ShareButton, SpecTable } from "./pdp-parts";
+import { ProductDescription, PurchasePerks, Related, RecentlyViewedTrack, Reviews, SectionTabs, ShareButton, SpecTable } from "./pdp-parts";
 import { ProductData, animalLabel } from "./types";
 import { Crumbs, PriceTag, Qty, Stars } from "./ui";
 import { inr } from "@/lib/ui/format";
@@ -47,13 +47,12 @@ export default function ProductView({ p }: { p: ProductData }) {
       <SectionTabs active={tab} onChange={setTab} tabs={[{ id: "desc", label: "Description" }, { id: "spec", label: "Specifications" }, { id: "rev", label: `Reviews (${p.rating.count})` }]} />
       <div className="sf-pane" role="tabpanel" key={tab}>
         <h2 className="pd-pane-title">{tab === "desc" ? "About this product" : tab === "spec" ? "Product specifications" : "Customer reviews"}</h2>
-        {tab === "desc" && <div className="pd-desc">{p.description || p.shortDescription || "No description provided."}</div>}
+        {tab === "desc" && <ProductDescription text={p.description || p.shortDescription || ""} />}
         {tab === "spec" && <SpecTable rows={[["Brand", p.brand], ["Category", p.category?.name], ["Type", p.productType], ["Suitable for", p.compatibility?.map(animalLabel).join(", ")], ["Material", p.material], ["Colours", p.colors?.join(", ")], ["Sizes", p.sizes?.join(", ")], ...(p.specifications ?? []).map((s): [string, string] => [s.key, s.value])]} />}
         {tab === "rev" && <Reviews id={p.id} rating={p.rating} />}
       </div>
       </section>
       <Related categorySlug={p.category?.slug} excludeId={p.id} title="You may also like" />
-      <div className="sf-stk"><div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}><b>{inr(p.pricing.finalPrice)}</b>{off > 0 && <s className="muted small" style={{ color: "var(--mu)" }}>{inr(p.pricing.price)}</s>}</div><button className="sf-btn" disabled={out || !!busy} onClick={() => add(false)}>{out ? "Out of stock" : "Add to cart"}</button><button className="sf-btn amber" disabled={out || !!busy} onClick={() => add(true)}>Buy now</button></div>
     </div>
   );
 }

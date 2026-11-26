@@ -12,7 +12,7 @@ export default function TrackOrder() {
     <div className="od-page">
       <header className="od-head">
         <h1>Track your order</h1>
-        <p>Follow each order below, or open it to see shipping details.</p>
+        <p>Follow each order below, or open it to see shipping details. Statuses are updated by the PetBlitz team; use the courier link, when available, for real-time shipment updates.</p>
       </header>
       {me ? <div className="od-wrap"><OrderList /></div> : (
         <div className="od-empty">

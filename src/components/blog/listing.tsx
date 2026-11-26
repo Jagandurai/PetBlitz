@@ -16,7 +16,8 @@ export default function BlogListing() {
   const q = sp.get("q") ?? "", category = sp.get("category") ?? "", tag = sp.get("tag") ?? "";
   const page = Math.max(1, Number(sp.get("page")) || 1);
   const [term, setTerm] = useState(q);
-  useEffect(() => { setTerm(q); }, [q]);
+  // follow the address when it changes some other way, without trimming what is being typed
+  useEffect(() => { setTerm((t) => (t.trim() === q ? t : q)); }, [q]);
   const { data, loading, error, reload } = useApi<Listing>(`/api/blog${qs({ q, category, tag, page, pageSize: 9 })}`);
   const set = (patch: Record<string, string | null>) => {
     const n = new URLSearchParams(sp.toString());
@@ -24,14 +25,21 @@ export default function BlogListing() {
     if (!("page" in patch)) n.delete("page");
     router.replace(`/blog${n.size ? `?${n}` : ""}`, { scroll: false });
   };
+  // search as you type; an emptied box clears the search at once
+  const [typing, setTyping] = useState(false);
+  useEffect(() => {
+    if (!typing) return;
+    const t = setTimeout(() => { setTyping(false); if (term.trim() !== q) set({ q: term.trim() || null }); }, term.trim() ? 300 : 0);
+    return () => clearTimeout(t);
+  }, [term, typing]); // eslint-disable-line react-hooks/exhaustive-deps
   const filtered = !!(q || category || tag);
   return (
     <>
       <Crumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
       <header className="bl-hero">
         <div><span>The PetBlitz Journal</span><h1>Tips, guides &amp; stories for happy pet homes</h1></div>
-        <form role="search" onSubmit={(e) => { e.preventDefault(); set({ q: term.trim() || null }); }}>
-          <LuSearch size={18} aria-hidden="true" /><input value={term} onChange={(e) => setTerm(e.target.value)} placeholder="Search articles…" aria-label="Search articles" maxLength={100} /><button>Search</button>
+        <form role="search" onSubmit={(e) => { e.preventDefault(); setTyping(false); set({ q: term.trim() || null }); }}>
+          <LuSearch size={18} aria-hidden="true" /><input type="search" value={term} onChange={(e) => { setTerm(e.target.value); setTyping(true); }} placeholder="Search articles…" aria-label="Search articles" maxLength={100} /><button>Search</button>
         </form>
       </header>
       {!!data?.categories.length && (
@@ -40,7 +48,7 @@ export default function BlogListing() {
           {data.categories.map((c) => <button key={c.name} className={category === c.name ? "on" : ""} aria-pressed={category === c.name} onClick={() => set({ category: c.name })}>{c.name}<small>{c.count}</small></button>)}
         </div>
       )}
-      {filtered && <p className="bl-result">{loading ? "Searching…" : `${data?.total ?? 0} article${data?.total === 1 ? "" : "s"}`}{q && <> for “{q}”</>}{tag && <> tagged #{tag}</>} · <button onClick={() => router.replace("/blog", { scroll: false })}>Clear filters</button></p>}
+      {filtered && <p className="bl-result">{loading ? "Searching…" : `${data?.total ?? 0} article${data?.total === 1 ? "" : "s"}`}{q && <> for “{q}”</>}{tag && <> tagged #{tag}</>} · <button onClick={() => { setTyping(false); setTerm(""); router.replace("/blog", { scroll: false }); }}>Clear filters</button></p>}
       {error ? <div className="sf-empty"><h3>We couldn&apos;t load the blog</h3><p>{error}</p><button className="sf-btn" onClick={reload}>Try again</button></div>
         : loading ? <GridSkeleton n={3} />
         : !data?.items.length && !data?.featured ? <Empty icon="📝" title={filtered ? "No articles match" : "Fresh articles are on the way"}>{filtered ? "Try another search or category." : "Please check back soon."}</Empty>

@@ -17,7 +17,7 @@ export default function AdminBlog() {
   const { can } = useAdmin();
   const [q, setQ] = useState(""), [status, setStatus] = useState(""), [category, setCategory] = useState(""), [page, setPage] = useState(1);
   const [doomed, setDoomed] = useState<Row | null>(null), [terms, setTerms] = useState(false);
-  const dq = useDebounced(q.trim());
+  const typed = useDebounced(q.trim(), 250), dq = q.trim() ? typed : ""; // clearing the box takes effect at once
   const { data, loading, error, reload } = useApi<Data>(`/api/admin/blog${qs({ q: dq, status, category, page, pageSize: 15 })}`);
   const { busy, run } = useAction();
   const move = async (r: Row, to: Row["status"], message: string) => { if (await run(() => api(`/api/admin/blog/${r._id}`, { method: "PATCH", body: { status: to } }), message)) reload(); };
@@ -39,7 +39,7 @@ export default function AdminBlog() {
         <div className="row"><Button className="ghost" onClick={() => setTerms(true)}><LuTags /> Categories &amp; tags</Button><Can perm="marketing.write"><Link className="btn" href="/admin/blog/new"><LuPlus /> New article</Link></Can></div></div>
       <div className="kpis" style={{ marginBottom: 0 }}>{stats.map((s) => <button key={s.label} type="button" className={`kpi blg-kpi ${status === s.key ? "on" : ""}`} aria-pressed={status === s.key} onClick={() => filter(s.key)}><span className="kpi-ic" style={{ color: s.tone, background: `${s.tone}1a` }}>{s.icon}</span><span><span className="kpi-l">{s.label}</span><b className="kpi-v">{s.value ?? "—"}</b></span></button>)}</div>
       <div className="set-card pl-filter">
-        <div className="grow"><TextField label="Search" value={q} onChange={(v) => { setQ(v); setPage(1); }} placeholder="Title, slug, author or tag" maxLength={100} /></div>
+        <div className="grow"><TextField label="Search" type="search" value={q} onChange={(v) => { setQ(v); setPage(1); }} placeholder="Title, slug, author or tag" maxLength={100} /></div>
         <Select label="Status" value={status} onChange={filter} options={[{ value: "", label: "All" }, { value: "published", label: "Published" }, { value: "draft", label: "Draft" }, { value: "archived", label: "Archived" }]} />
         <Select label="Category" value={category} onChange={(v) => { setCategory(v); setPage(1); }} options={[{ value: "", label: "All" }, ...(data?.categories ?? []).map((c) => ({ value: c.name, label: c.name }))]} />
       </div>

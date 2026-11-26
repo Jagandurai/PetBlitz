@@ -27,6 +27,15 @@
 .sf .ct-form button:hover:not(:disabled){background:#136B47;transform:translateY(-2px)}
 .sf .ct-form button:focus-visible{outline:2.5px solid #3F8F5B;outline-offset:3px}
 
+/* the account e-mail: shown, never editable */
+.sf .ct-email{min-width:0}
+.sf .ct-locked{position:relative;display:block}
+.sf .ct-form .ct-locked input{padding-right:42px;border-style:dashed;background:#F1F4EC;color:#56635a;text-overflow:ellipsis;cursor:default}
+.sf .ct-form .ct-locked input:hover,.sf .ct-form .ct-locked input:focus{border-color:#b9cda4;background:#F1F4EC;box-shadow:none}
+.sf .ct-form .ct-locked input:focus-visible{box-shadow:0 0 0 4px rgba(63,143,91,.15)}
+.sf .ct-locked svg{position:absolute;right:14px;top:calc(50% + 3px);width:17px;height:17px;transform:translateY(-50%);color:#3F8F5B;pointer-events:none}
+.sf .ct-email small{display:block;margin-top:6px;font-size:.78rem;color:#5b6757}
+
 .sf .ct-done{padding:40px 24px;border:1px solid #cfe0bd;border-radius:28px;background:linear-gradient(180deg,#F1F8E8,#fff);text-align:center}
 .sf .ct-done>svg{width:62px;height:62px;color:#2F8A52}
 .sf .pg .ct-done h2{margin:10px 0 6px;font-size:1.8rem}

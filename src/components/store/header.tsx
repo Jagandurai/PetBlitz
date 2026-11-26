@@ -25,10 +25,36 @@ const badge = (n: number) => (n > 99 ? "99+" : n);
 // ------------------------------------------------------------------ search with suggestions
 type Suggest = { state: "idle" | "loading" | "done" | "error"; q: string; items: ProductData[] };
 
-function SearchBox({ tree }: { tree: CatNode[] }) {
+/** Pages that list search results: there the box filters the list as you type, and emptying it clears the search. */
+const RESULT_PAGES = ["/search", "/products"];
+
+function SearchBox({ tree, params = "" }: { tree: CatNode[]; params?: string }) {
   const router = useRouter(), path = usePathname();
-  const [q, setQ] = useState(""), [open, setOpen] = useState(false), [idx, setIdx] = useState(-1);
+  const live = RESULT_PAGES.includes(path);
+  const urlQ = live ? new URLSearchParams(params).get("q") ?? "" : "";
+  const [q, setQ] = useState(urlQ), [open, setOpen] = useState(false), [idx, setIdx] = useState(-1);
   const dq = useDebounced(q.trim(), 250);
+  /** `sent` is the search the address bar has; `typing` is true only for changes made by the shopper in this box. */
+  const sent = useRef(urlQ), typing = useRef(false);
+  const change = (v: string) => { typing.current = true; setQ(v); setIdx(-1); };
+  const apply = (term: string) => {
+    typing.current = false;
+    if (!live || term === sent.current) return;
+    sent.current = term;
+    if (path === "/search") { router.replace(term ? `/search?q=${encodeURIComponent(term)}` : "/products", { scroll: false }); return; }
+    const n = new URLSearchParams(params);
+    if (term) n.set("q", term); else n.delete("q");
+    n.delete("page");
+    router.replace(`/products${n.size ? `?${n}` : ""}`, { scroll: false });
+  };
+  // the address changed some other way (a link, "Clear all", back/forward): show what it says
+  useEffect(() => { if (urlQ !== sent.current) { sent.current = urlQ; typing.current = false; setQ(urlQ); } }, [urlQ]);
+  // arriving on a results page from elsewhere: leftover text must not suggest a filter that is not applied
+  const wasLive = useRef(live);
+  useEffect(() => { if (live && !wasLive.current) { typing.current = false; setQ(urlQ); } wasLive.current = live; }, [live]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (typing.current && dq === q.trim()) apply(dq); }, [dq]); // eslint-disable-line react-hooks/exhaustive-deps
+  // emptying the box clears the results at once, without waiting
+  useEffect(() => { if (typing.current && !q.trim()) apply(""); }, [q]); // eslint-disable-line react-hooks/exhaustive-deps
   const [res, setRes] = useState<Suggest>({ state: "idle", q: "", items: [] });
   const box = useRef<HTMLFormElement>(null);
   useEffect(() => {
@@ -50,9 +76,9 @@ function SearchBox({ tree }: { tree: CatNode[] }) {
   const items = !busy && res.state === "done" ? res.items : [];
   const shownCats = busy ? [] : cats;
   const links = [...shownCats.map((c) => catHref(c)), ...items.map((p) => `/products/${p.slug}`)];
-  const show = open && typed.length >= 2;
+  const show = open && !live && typed.length >= 2;
   const close = () => { setOpen(false); (document.activeElement as HTMLElement | null)?.blur(); };
-  const submit = (e: React.FormEvent) => { e.preventDefault(); const sel = show ? links[idx] : undefined; close(); router.push(sel ?? (typed ? `/search?q=${encodeURIComponent(typed)}` : "/products")); };
+  const submit = (e: React.FormEvent) => { e.preventDefault(); const sel = show ? links[idx] : undefined; close(); if (live) { apply(typed); return; } router.push(sel ?? (typed ? `/search?q=${encodeURIComponent(typed)}` : "/products")); };
   const keys = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowDown") { e.preventDefault(); setOpen(true); setIdx((i) => Math.min(links.length - 1, i + 1)); }
     else if (e.key === "ArrowUp") { e.preventDefault(); setIdx((i) => Math.max(-1, i - 1)); }
@@ -67,8 +93,8 @@ function SearchBox({ tree }: { tree: CatNode[] }) {
   return (
     <form className={`nv-search ${show ? "open" : ""}`} role="search" onSubmit={submit} ref={box} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setOpen(false); }}>
       <LuSearch className="nv-search-ic" size={19} aria-hidden="true" />
-      <input id="nv-search-input" value={q} onChange={(e) => { setQ(e.target.value); setOpen(true); setIdx(-1); }} onFocus={() => setOpen(true)} onKeyDown={keys} placeholder="Search accessories, toys, brands..." aria-label="Search the store" autoComplete="off" enterKeyHint="search" role="combobox" aria-autocomplete="list" aria-controls="nv-listbox" aria-expanded={show} aria-activedescendant={show && idx >= 0 ? `nv-opt-${idx}` : undefined} />
-      {q && <button type="button" className="nv-clear" aria-label="Clear search" onClick={() => { setQ(""); document.getElementById("nv-search-input")?.focus(); }}><FiX size={16} /></button>}
+      <input id="nv-search-input" value={q} onChange={(e) => { change(e.target.value); setOpen(true); }} onFocus={() => setOpen(true)} onKeyDown={keys} placeholder="Search accessories, toys, brands..." aria-label="Search the store" autoComplete="off" enterKeyHint="search" role="combobox" aria-autocomplete="list" aria-controls="nv-listbox" aria-expanded={show} aria-activedescendant={show && idx >= 0 ? `nv-opt-${idx}` : undefined} />
+      {q && <button type="button" className="nv-clear" aria-label="Clear search" onClick={() => { change(""); document.getElementById("nv-search-input")?.focus(); }}><FiX size={16} /></button>}
       <button type="submit" className="nv-go" aria-label="Search"><LuSearch size={18} /><span>Search</span></button>
       {show && (
         <div className="nv-sug">
@@ -173,6 +199,7 @@ function NavBar({ tree, onSale }: { tree: CatNode[]; onSale: boolean }) {
 }
 /** useSearchParams needs a Suspense boundary so static pages can still prerender. */
 function NavWithQuery({ tree }: { tree: CatNode[] }) { return <NavBar tree={tree} onSale={useSearchParams().get("onSale") === "true"} />; }
+function SearchWithQuery({ tree }: { tree: CatNode[] }) { return <SearchBox tree={tree} params={useSearchParams().toString()} />; }
 
 // ------------------------------------------------------------------ mobile menu
 function MobileMenu({ tree, onClose }: { tree: CatNode[]; onClose: () => void }) {
@@ -373,7 +400,7 @@ export function Header() {
         <div className="sf-wrap nv-top">
           <button className="nv-ib nv-burger" aria-label="Open menu" aria-haspopup="dialog" aria-expanded={menu} onClick={() => setMenu(true)}><LuMenu size={23} /></button>
           <Link href="/" className="nv-logo" aria-label="PetBlitz home"><img src="/logo.webp" alt="PetBlitz" /></Link>
-          <SearchBox tree={tree} />
+          <Suspense fallback={<SearchBox tree={tree} />}><SearchWithQuery tree={tree} /></Suspense>
           <div className="nv-actions">
             <Link href={accountHref} className={`nv-ib ${me ? "signed" : ""}`} aria-label={accountLabel} data-tip={me ? "Account" : "Sign in"} aria-busy={loading}>{me ? <UserPhoto me={me} /> : <LuUserRound size={22} />}{news > 0 && <span className="nv-cnt">{badge(news)}</span>}</Link>
             <Link href="/wishlist" onClick={peek("/wishlist", openWish)} className="nv-ib" aria-label={`Wishlist, ${wish.length} saved`} data-tip="Wishlist"><LuHeart size={22} />{wish.length > 0 && <span className="nv-cnt" key={wish.length}>{badge(wish.length)}</span>}</Link>

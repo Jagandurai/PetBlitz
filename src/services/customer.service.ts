@@ -1,6 +1,7 @@
 import { connectDB } from "@/lib/db/connection";
 import { AppError, conflict, isDuplicateKeyError, notFound } from "@/lib/errors";
 import { toObjectId } from "@/lib/ids";
+import { escapeRegex } from "@/lib/sanitize";
 import { Customer, CustomerDoc } from "@/models/Customer";
 import { AddressInput, CustomerSelfUpdate, GoogleProfile, addressSchema, customerSelfUpdateSchema, googleProfileSchema } from "@/validations/customer.validation";
 
@@ -147,7 +148,7 @@ export async function listCustomersAdmin(opts: { q?: string; status?: string; pa
   await connectDB();
   const f: Record<string, unknown> = {};
   if (opts.status) f.status = opts.status;
-  if (opts.q) f.email = opts.q.trim().toLowerCase(); // exact match: index-friendly and no regex from user input
+  if (opts.q) { const r = new RegExp(escapeRegex(opts.q.trim()), "i"); f.$or = [{ email: r }, { displayName: r }]; } // partial match for search-as-you-type; input is escaped
   const [rows, total] = await Promise.all([
     Customer.find(f, { googleId: 0, addresses: 0 }).sort({ createdAt: -1 }).skip((opts.page - 1) * opts.pageSize).limit(opts.pageSize).lean(),
     Customer.countDocuments(f),

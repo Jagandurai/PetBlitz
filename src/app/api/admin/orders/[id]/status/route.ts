@@ -8,5 +8,5 @@ export const dynamic = "force-dynamic";
 /** Validated state machine + audit entry. To cancel use POST .../cancel (it releases stock and refunds). */
 export const POST = admin<{ id: string }>(async ({ req, actor, params }) => {
   const b = await parseBody(req, orderStatusSchema);
-  return ok(await O.transitionOrderStatus(idOf(params.id), b.status, { type: "admin", id: actor.id }, b.note));
+  return ok(await O.transitionOrderStatus(idOf(params.id), b.status, { type: "admin", id: actor.id, name: actor.email }, b.note, b.shipping));
 });

@@ -4,7 +4,6 @@ import { conflict, isDuplicateKeyError, notFound, unprocessable } from "@/lib/er
 import { toObjectId } from "@/lib/ids";
 import { computeStockStatus } from "@/lib/inventory";
 import { escapeRegex, slugify } from "@/lib/sanitize";
-import { withTextFallback } from "@/lib/search";
 import { Category } from "@/models/Category";
 import { Product, ProductDoc } from "@/models/Product";
 import { InventoryMovement } from "@/models/Ops";
@@ -53,8 +52,11 @@ export async function listPublicProducts(rawQuery: unknown) {
   if (q.compatibility) filter.compatibility = q.compatibility;
   if (q.featured !== undefined) filter.isFeatured = q.featured;
   if (q.minPrice !== undefined || q.maxPrice !== undefined) filter.finalPrice = { ...(q.minPrice !== undefined ? { $gte: q.minPrice } : {}), ...(q.maxPrice !== undefined ? { $lte: q.maxPrice } : {}) };
-  const useText = !!q.q;
-  if (q.q) filter.$text = { $search: q.q }; // text index (weighted name > brand > description); falls back to regex below if the index is missing
+  // search-as-you-type, so partial words must match ($text only finds whole words): every word has to appear somewhere. Input is escaped.
+  for (const word of (q.q ?? "").split(/\s+/).filter(Boolean).slice(0, 8)) {
+    const r = new RegExp(escapeRegex(word), "i");
+    and.push({ $or: [{ name: r }, { brand: r }, { sku: r }, { description: r }] });
+  }
   if (q.inStock) {
     and.push({ $or: [{ trackInventory: false }, { backorderPolicy: "allow" }, { $expr: { $gt: [{ $subtract: ["$stockQuantity", "$reservedQuantity"] }, 0] } }] });
   }
@@ -63,7 +65,7 @@ export async function listPublicProducts(rawQuery: unknown) {
     Product.find(filter).select(PUBLIC_PRODUCT_FIELDS).sort(SORTS[q.sort] as Record<string, 1 | -1>).skip((q.page - 1) * q.pageSize).limit(q.pageSize).lean(),
     Product.countDocuments(filter),
   ]);
-  const [rows, total] = await withTextFallback(useText, filter, q.q, "$or", (r) => [{ name: r }, { brand: r }, { sku: r }], run);
+  const [rows, total] = await run();
   const cats = await Category.find({ _id: { $in: [...new Set(rows.map((r) => String(r.categoryId)))] } }, { name: 1, slug: 1 }).lean();
   const cmap = new Map(cats.map((c) => [String(c._id), { name: c.name, slug: c.slug }]));
   return { items: rows.map((r) => toPublicProduct(r as ProductLean, cmap.get(String(r.categoryId)))), ...pageMeta(q, total) };

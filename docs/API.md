@@ -10,7 +10,7 @@ _Generated from `scripts/endpoints.ts` by `npm run docs:generate`. Do not edit b
 * **Customer auth:** signed session — `pb_session` HttpOnly cookie (set by `POST /api/auth/google`) or `Authorization: Bearer <session token>`. Cookie-authenticated writes also require a matching `Origin` header (CSRF).
 * **Scheduler auth:** `Authorization: Bearer <CRON_SECRET>`.
 
-## Endpoints (123)
+## Endpoints (130)
 
 ### Public
 
@@ -26,7 +26,7 @@ _Generated from `scripts/endpoints.ts` by `npm run docs:generate`. Do not edit b
 | GET | `/api/products?compatibility=dog&inStock=true` | none | Published accessories. |
 | GET | `/api/products/{{productSlug}}` | none | Single published product. |
 | GET | `/api/reviews?targetType=product&targetId={{productId}}` | none | Approved reviews only. |
-| POST | `/api/contact` | none | Creates a support ticket. 5 requests / 10 min / IP. Honeypot field `website` must stay empty. |
+| POST | `/api/contact` | Customer session | Signed-in customers only (401 otherwise). The e-mail is taken from the account; any e-mail in the body is ignored. 5 requests / 10 min / IP. Honeypot field `website` must stay empty. |
 | POST | `/api/webhooks/razorpay` | Razorpay signature | Razorpay -> server. Needs x-razorpay-signature (HMAC of RAW body) and x-razorpay-event-id headers. |
 | POST | `/api/cron/release-expired` | Cron secret | Cancels unpaid orders past the TTL, frees reservations, finalises stuck wallet refunds. Bearer CRON_SECRET. |
 | GET | `/api/settings/public` | none | Tax mode, shipping fee / free-shipping threshold, return window (no GSTIN or addresses). |
@@ -72,11 +72,12 @@ _Generated from `scripts/endpoints.ts` by `npm run docs:generate`. Do not edit b
 | GET | `/api/me/orders?page=1&pageSize=20` | Customer session | Order history. |
 | POST | `/api/me/orders` | Customer session | Server prices everything. Same idempotencyKey replays the original order (200). |
 | GET | `/api/me/orders/{{orderId}}` | Customer session | Own order only (404 otherwise). |
-| POST | `/api/me/orders/{{orderId}}/cancel` | Customer session | Only while placed/accepted/confirmed. Paid amount is refunded to the wallet. |
+| POST | `/api/me/orders/{{orderId}}/cancel` | Customer session | Only while placed/accepted. Paid amount is refunded to the wallet. |
 | POST | `/api/me/orders/{{orderId}}/pay/razorpay` | Customer session | Returns { keyId, razorpayOrderId, amount, currency } for Razorpay Checkout. |
 | POST | `/api/me/orders/{{orderId}}/pay/wallet` | Customer session | Full payment from wallet balance. |
 | POST | `/api/me/payments/razorpay/confirm` | Customer session | Verifies signature, re-fetches payment from Razorpay, checks amount/currency. |
 | POST | `/api/me/reviews` | Customer session | Delivered+paid order items only; starts as pending moderation. |
+| GET | `/api/me/notifications` | Customer session | Unread order updates and support replies for the signed-in customer. |
 | GET | `/api/me/tickets` | Customer session | Own tickets. |
 | POST | `/api/me/tickets` | Customer session | New support ticket. |
 | GET | `/api/me/tickets/{{ticketId}}?threadPage=1` | Customer session | Own ticket (paginated thread). |
@@ -137,7 +138,7 @@ _Generated from `scripts/endpoints.ts` by `npm run docs:generate`. Do not edit b
 |---|---|---|---|
 | GET | `/api/admin/orders?status=placed&paymentStatus=pending&page=1` | Admin key | Filters: status, paymentStatus, customerId, q (exact order number), from, to. |
 | GET | `/api/admin/orders/{{orderId}}` | Admin key | Full order (admin note, status history) + payments. |
-| POST | `/api/admin/orders/{{orderId}}/status` | Admin key | State machine enforced. confirmed needs paid; refunded needs fully refunded. 'cancelled' is not accepted here. |
+| POST | `/api/admin/orders/{{orderId}}/status` | Admin key | One stage at a time: accepted, packed, dispatched, in_transit, delivered. accepted/packed need a paid order; refunded needs fully refunded. Optional `shipping` object is saved in the same write. 'cancelled' is not accepted here. |
 | POST | `/api/admin/orders/{{orderId}}/cancel` | Admin key | Idempotent; releases/restocks inventory; refunds paid amount to wallet. |
 | PATCH | `/api/admin/orders/{{orderId}}/shipping` | Admin key | Courier + tracking. |
 | PATCH | `/api/admin/orders/{{orderId}}/note` | Admin key | Private note (never shown to customers). |
@@ -147,7 +148,7 @@ _Generated from `scripts/endpoints.ts` by `npm run docs:generate`. Do not edit b
 
 | Method | Path | Auth | Description |
 |---|---|---|---|
-| GET | `/api/admin/customers?q=asha@example.com` | Admin key | Exact-email search; no Google ids returned. |
+| GET | `/api/admin/customers?q=asha@example.com` | Admin key | Partial name or e-mail search; no Google ids returned. |
 | GET | `/api/admin/customers/{{customerId}}` | Admin key | Customer record (no Google id). |
 | PATCH | `/api/admin/customers/{{customerId}}/status` | Admin key | Takes effect on the customer's next request. |
 | GET | `/api/admin/customers/{{customerId}}/wallet` | Admin key | Balance + ledger incl. idempotency keys / actors. |
@@ -172,6 +173,7 @@ _Generated from `scripts/endpoints.ts` by `npm run docs:generate`. Do not edit b
 |---|---|---|---|
 | POST | `/api/admin/auth/login` | none | E-mail + password (+ TOTP / recovery code). 10/15 min per IP; 5 failures lock the account 15 min. Sets HttpOnly session cookie. |
 | GET | `/api/admin/auth/me` | Admin key | Role + permissions for the UI. |
+| GET | `/api/admin/notifications` | Admin key | Unread orders and tickets for the sidebar badges (zero where the role has no access). |
 | POST | `/api/admin/auth/logout` | Admin key | Revokes the session and clears the cookie. |
 | POST | `/api/admin/auth/password` | Admin key | Signs out all other sessions. |
 | POST | `/api/admin/auth/mfa/setup` | Admin key | Returns TOTP secret + otpauth URL (render as QR). Session accounts only. |
@@ -194,6 +196,11 @@ _Generated from `scripts/endpoints.ts` by `npm run docs:generate`. Do not edit b
 | PATCH | `/api/admin/settings` | Admin key | Owner only. stateFees keyed by GST state code (33 = Tamil Nadu). |
 | GET | `/api/admin/coupons?page=1` | Admin key | Coupons with usage counts. |
 | POST | `/api/admin/coupons` | Admin key | percent (1-100) or fixed paise; limits, window, appliesTo. |
+| DELETE | `/api/admin/orders/{{orderId}}` | Admin key | Owner only. Cancelled orders with no payment, invoice, return or review. |
+| PATCH | `/api/admin/orders/{{orderId}}/archive` | Admin key | Hides an order from the active admin list (reversible). |
+| POST | `/api/admin/orders/archive-range` | Admin key | Finished orders by date range; preview counts only. |
+| POST | `/api/admin/orders/delete-range` | Admin key | Owner only. Deletes only safe orders; preview counts only. |
+| DELETE | `/api/admin/coupons/{{couponId}}` | Admin key | Permanently removes a coupon; past orders keep their discount. |
 | PATCH | `/api/admin/coupons/{{couponId}}` | Admin key | Activate/deactivate, extend, change limits. |
 | POST | `/api/admin/orders/{{orderId}}/invoice` | Admin key | Idempotent: one GST invoice per order. |
 | GET | `/api/admin/returns?status=requested` | Admin key | Return queue. |
@@ -228,8 +235,8 @@ curl -X PATCH "$BASE/api/admin/blog/taxonomy" -H "Authorization: Bearer $ADMIN_A
 
 **Contact form** — `POST /api/contact`
 ```bash
-curl -X POST "$BASE/api/contact" -H "Content-Type: application/json" \
-  -d '{"name":"Guest","email":"guest@example.com","subject":"Delivery question","body":"Where can I track my delivery?","category":"delivery"}'
+curl -X POST "$BASE/api/contact" -H "Authorization: Bearer $CUSTOMER_TOKEN" -H "Content-Type: application/json" \
+  -d '{"name":"Asha","subject":"Delivery question","body":"Where can I track my delivery?","category":"delivery"}'
 ```
 
 **Google sign-in** — `POST /api/auth/google`
@@ -548,6 +555,24 @@ curl -X PATCH "$BASE/api/admin/settings" -H "Authorization: Bearer $ADMIN_API_KE
 ```bash
 curl -X POST "$BASE/api/admin/coupons" -H "Authorization: Bearer $ADMIN_API_KEY" -H "Content-Type: application/json" \
   -d '{"code":"WELCOME10","description":"10% off","type":"percent","value":10,"minOrderMinor":50000,"maxDiscountMinor":20000,"perCustomerLimit":1}'
+```
+
+**Archive or restore order** — `PATCH /api/admin/orders/{{orderId}}/archive`
+```bash
+curl -X PATCH "$BASE/api/admin/orders/{{orderId}}/archive" -H "Authorization: Bearer $ADMIN_API_KEY" -H "Content-Type: application/json" \
+  -d '{"archived":true}'
+```
+
+**Archive orders in range** — `POST /api/admin/orders/archive-range`
+```bash
+curl -X POST "$BASE/api/admin/orders/archive-range" -H "Authorization: Bearer $ADMIN_API_KEY" -H "Content-Type: application/json" \
+  -d '{"to":"2026-01-31T23:59:59.999Z","archived":true,"preview":true}'
+```
+
+**Delete orders in range** — `POST /api/admin/orders/delete-range`
+```bash
+curl -X POST "$BASE/api/admin/orders/delete-range" -H "Authorization: Bearer $ADMIN_API_KEY" -H "Content-Type: application/json" \
+  -d '{"to":"2026-01-31T23:59:59.999Z","preview":true}'
 ```
 
 **Update coupon** — `PATCH /api/admin/coupons/{{couponId}}`

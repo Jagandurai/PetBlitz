@@ -5,6 +5,10 @@ import { AppError, conflict, isDuplicateKeyError, notFound, unprocessable } from
 import { toObjectId } from "@/lib/ids";
 import { allocate, computeLine, computeOrderTotals, computeShipping } from "@/lib/pricing";
 import { stateCodeOf } from "@/lib/gst";
+import { TO_SHIP_STATUSES, orderStatusLabel, returnProgress, storedStatusesFor } from "@/lib/order-status";
+import { ReturnRequest } from "@/models/Ops";
+import { escapeRegex } from "@/lib/sanitize";
+import { AdminUser } from "@/models/Admin";
 import { nextOrderNumber } from "@/lib/sequence";
 import { Category } from "@/models/Category";
 import { Customer } from "@/models/Customer";
@@ -21,18 +25,21 @@ import { commitStock, releaseStock, reserveStock, restockCommitted } from "./pro
 // ---------------------------------------------------------------- state machine
 export const ORDER_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
   placed: ["accepted", "cancelled"],
-  accepted: ["confirmed", "cancelled"],
-  confirmed: ["processing", "cancelled"],
-  processing: ["shipped", "cancelled"],
-  shipped: ["in_transit", "delivered"],
-  in_transit: ["out_for_delivery", "delivered"],
+  accepted: ["packed", "cancelled"],
+  packed: ["dispatched", "cancelled"],
+  dispatched: ["in_transit"],
+  in_transit: ["delivered"],
+  // legacy values move on from the stage they are read as (lib/order-status.ts)
+  confirmed: ["packed", "cancelled"],
+  processing: ["packed", "cancelled"],
+  shipped: ["in_transit"],
   out_for_delivery: ["delivered"],
   delivered: ["refund_initiated"],
   cancelled: ["refund_initiated"], // only meaningful when the order was paid
   refund_initiated: ["refunded"],
   refunded: [],
 };
-/** Customers may self-cancel only before processing starts. Admins may cancel until shipment. */
+/** Customers may self-cancel only before packing (or legacy processing) starts. Admins may cancel until dispatch. */
 export const CUSTOMER_CANCELLABLE: OrderStatus[] = ["placed", "accepted", "confirmed"];
 export const canTransition = (from: OrderStatus, to: OrderStatus) => ORDER_TRANSITIONS[from]?.includes(to) ?? false;
 export function assertTransition(from: OrderStatus, to: OrderStatus) {
@@ -46,9 +53,12 @@ export { computeLine, computeOrderTotals } from "@/lib/pricing";
 type OrderLean = OrderDoc;
 /** Customer view: no adminNote, no actor ids, no idempotency key. */
 export function toCustomerOrder(o: OrderLean) {
-  const { adminNote: _a, adminUnread: _u, archivedAt: _h, idempotencyKey: _k, statusHistory, ...rest } = o as OrderLean & { adminNote?: string; adminUnread?: boolean; archivedAt?: Date };
+  const { adminNote: _a, adminUnread: _u, archivedAt: _h, idempotencyKey: _k, statusHistory, shipping, ...rest } = o as OrderLean & { adminNote?: string; adminUnread?: boolean; archivedAt?: Date };
   void _a; void _k;
-  return { ...JSON.parse(JSON.stringify(rest)), statusHistory: (statusHistory ?? []).map((h) => ({ from: h.from, to: h.to, at: h.at })) };
+  const { notes: _n, ...publicShipping } = (shipping ?? {}) as { notes?: string };
+  void _n;
+  // history: stage changes only, without actors or notes
+  return { ...JSON.parse(JSON.stringify({ ...rest, shipping: publicShipping })), statusHistory: (statusHistory ?? []).filter((h) => h.to !== "shipping_updated").map((h) => ({ from: h.from, to: h.to, at: h.at })) };
 }
 
 // ---------------------------------------------------------------- inventory state machine per order item
@@ -177,7 +187,14 @@ export async function getOrderForCustomer(customerId: string, orderId: string) {
   const o = await Order.findOne({ _id: toObjectId(orderId), customerId: toObjectId(customerId) }).lean();
   if (!o) throw notFound("Order"); // same response for "not yours" and "missing"
   if (o.customerUnread) await Order.updateOne({ _id: o._id }, { $set: { customerUnread: false } }, { timestamps: false });
-  return toCustomerOrder(o as OrderLean);
+  const returns = await returnsByOrder([o._id]);
+  return { ...toCustomerOrder(o as OrderLean), returnInfo: returns.get(String(o._id)) };
+}
+
+/** Order id -> how far its return got (orders without a live return are left out). */
+async function returnsByOrder(ids: Types.ObjectId[]) {
+  const rows = ids.length ? await ReturnRequest.find({ orderId: { $in: ids } }, { orderId: 1, status: 1, createdAt: 1, "history.status": 1, "history.at": 1 }).lean() : [];
+  return new Map(ids.map((id) => [String(id), returnProgress(rows.filter((r) => String(r.orderId) === String(id)))]));
 }
 
 export async function listCustomerOrders(customerId: string, page = 1, pageSize = 20) {
@@ -185,11 +202,12 @@ export async function listCustomerOrders(customerId: string, page = 1, pageSize 
   const size = Math.min(Math.max(pageSize, 1), 50);
   const filter = { customerId: toObjectId(customerId) };
   const [rows, total] = await Promise.all([Order.find(filter).sort({ createdAt: -1 }).skip((Math.max(page, 1) - 1) * size).limit(size).lean(), Order.countDocuments(filter)]);
-  return { items: rows.map((r) => toCustomerOrder(r as OrderLean)), page, pageSize: size, total };
+  const returns = await returnsByOrder(rows.map((r) => r._id));
+  return { items: rows.map((r) => ({ ...toCustomerOrder(r as OrderLean), returnInfo: returns.get(String(r._id)) })), page, pageSize: size, total };
 }
 
 // ---------------------------------------------------------------- status changes
-export interface Actor { type: "customer" | "admin" | "system"; id?: string }
+export interface Actor { type: "customer" | "admin" | "system"; id?: string; name?: string }
 
 /** Idempotent cancellation + reservation release. Customers may only cancel their own, pre-shipment orders. */
 export async function cancelOrder(orderId: string, actor: Actor, reason?: string, ownerCustomerId?: string) {
@@ -206,7 +224,7 @@ export async function cancelOrder(orderId: string, actor: Actor, reason?: string
   }
   const upd = await Order.findOneAndUpdate(
     { _id: oid, status: order.status },
-    { $set: { status: "cancelled", cancellation: { reason, cancelledAt: new Date(), cancelledByType: actor.type }, [actor.type === "customer" ? "adminUnread" : "customerUnread"]: true }, $push: { statusHistory: { from: order.status, to: "cancelled", actorType: actor.type, actorId: actor.id, note: reason } } },
+    { $set: { status: "cancelled", cancellation: { reason, cancelledAt: new Date(), cancelledByType: actor.type }, [actor.type === "customer" ? "adminUnread" : "customerUnread"]: true }, $push: { statusHistory: { from: order.status, to: "cancelled", actorType: actor.type, actorId: actor.id, actorName: actor.name, note: reason } } },
     { new: true },
   ).lean();
   if (!upd) { // lost a race
@@ -220,23 +238,45 @@ export async function cancelOrder(orderId: string, actor: Actor, reason?: string
   return upd as OrderLean;
 }
 
-/** Admin status change with transition validation + audit entry (optimistic concurrency on the current status). */
-export async function transitionOrderStatus(orderId: string, to: OrderStatus, actor: Actor, note?: string) {
+const SHIPPING_KEYS = ["partner", "trackingNumber", "trackingUrl", "estimatedDelivery", "customerRemarks", "notes"] as const;
+
+/** The courier fields that really differ from what is stored, as a Mongo update. Never touches payment or status fields. */
+function shippingChanges(current: Record<string, unknown> | undefined | null, patch: Partial<Record<(typeof SHIPPING_KEYS)[number], string | Date | null>>) {
+  const set: Record<string, unknown> = {}, unset: Record<string, 1> = {};
+  for (const k of SHIPPING_KEYS) {
+    const v = patch[k];
+    if (v === undefined) continue;
+    const old = current?.[k];
+    const same = v instanceof Date ? old instanceof Date && old.getTime() === v.getTime() : (v ?? "") === (old ?? "");
+    if (same) continue;
+    if (v === null || v === "") unset[`shipping.${k}`] = 1; else set[`shipping.${k}`] = v;
+  }
+  return { set, unset: Object.keys(unset).length ? { $unset: unset } : {}, changed: Object.keys(set).length + Object.keys(unset).length > 0 };
+}
+
+/**
+ * Admin status change with transition validation + history entry (optimistic concurrency on the current status, so a
+ * double submit can never add a second entry). Courier details sent along are saved in the same write.
+ * Payment status is never changed here.
+ */
+export async function transitionOrderStatus(orderId: string, to: OrderStatus, actor: Actor, note?: string, shipping?: AdminShippingInput) {
   await connectDB();
   if (to === "cancelled") return cancelOrder(orderId, actor, note);
   const oid = toObjectId(orderId);
   const order = await Order.findById(oid).lean();
   if (!order) throw notFound("Order");
   assertTransition(order.status as OrderStatus, to);
-  if (to === "confirmed" && order.paymentStatus !== "paid") throw conflict("PAYMENT_REQUIRED", "Order must be paid before it can be confirmed");
+  // fulfilment needs a paid order: an unpaid one can only be paid while it is still "placed"
+  if ((to === "accepted" || to === "packed") && !["paid", "partially_refunded"].includes(order.paymentStatus)) throw conflict("PAYMENT_REQUIRED", `Order must be paid before it can be marked ${orderStatusLabel(to)}`);
   if (to === "refund_initiated" && !["paid", "partially_refunded", "refunded"].includes(order.paymentStatus)) throw conflict("NOTHING_TO_REFUND", "Order has no paid amount to refund");
   if (to === "refunded" && order.paymentStatus !== "refunded") throw conflict("REFUND_INCOMPLETE", "Order can only be marked refunded after the payment is fully refunded");
-  const set: Record<string, unknown> = { status: to };
-  if (to === "shipped") { set.fulfillmentStatus = "shipped"; set["shipping.shippedAt"] = new Date(); }
+  const courier = shippingChanges(order.shipping as Record<string, unknown> | undefined, adminShippingSchema.parse(shipping ?? {}));
+  const set: Record<string, unknown> = { status: to, ...courier.set };
+  if (to === "dispatched") { set.fulfillmentStatus = "shipped"; set["shipping.shippedAt"] = new Date(); }
   if (to === "delivered") { set.fulfillmentStatus = "delivered"; set["shipping.deliveredAt"] = new Date(); }
-  const upd = await Order.findOneAndUpdate({ _id: oid, status: order.status }, { $set: { ...set, ...(actor.type === "admin" ? { customerUnread: true } : {}) }, $push: { statusHistory: { from: order.status, to, actorType: actor.type, actorId: actor.id, note } } }, { new: true }).lean();
+  const upd = await Order.findOneAndUpdate({ _id: oid, status: order.status }, { $set: { ...set, ...(actor.type === "admin" ? { customerUnread: true } : {}) }, ...courier.unset, $push: { statusHistory: { from: order.status, to, at: new Date(), actorType: actor.type, actorId: actor.id, actorName: actor.name, note: note || undefined } } }, { new: true }).lean();
   if (!upd) throw conflict("ORDER_CONFLICT", "Order changed concurrently; retry");
-  if (to === "shipped") {
+  if (to === "dispatched") {
     try { await ensureInvoice(oid); } catch (e) { console.error("[invoice] issue failed", String(oid), e instanceof Error ? e.name : "error"); } // retried by the admin "issue invoice" action
     await notifyCustomer(upd.customerId, "orderShipped", { orderId: String(oid), orderNumber: upd.orderNumber, partner: upd.shipping?.partner, trackingNumber: upd.shipping?.trackingNumber }, `order-shipped:${oid}`);
   }
@@ -247,9 +287,13 @@ export async function transitionOrderStatus(orderId: string, to: OrderStatus, ac
 export async function updateShipping(orderId: string, input: AdminShippingInput, actor: Actor) {
   await connectDB();
   const d = adminShippingSchema.parse(input);
-  const set: Record<string, unknown> = {};
-  for (const [k, v] of Object.entries(d)) if (v !== undefined) set[`shipping.${k}`] = v;
-  const o = await Order.findOneAndUpdate({ _id: toObjectId(orderId) }, { $set: { ...set, customerUnread: true }, $push: { statusHistory: { from: undefined, to: "shipping_updated", actorType: actor.type, actorId: actor.id } } }, { new: true }).lean();
+  const oid = toObjectId(orderId);
+  const before = await Order.findById(oid).lean();
+  if (!before) throw notFound("Order");
+  const c = shippingChanges(before.shipping as Record<string, unknown> | undefined, d);
+  if (!c.changed) return before as OrderLean; // nothing new: no duplicate history entry
+  const remarks = typeof c.set["shipping.customerRemarks"] === "string" ? (c.set["shipping.customerRemarks"] as string) : undefined;
+  const o = await Order.findOneAndUpdate({ _id: oid }, { $set: { ...c.set, customerUnread: true }, ...c.unset, $push: { statusHistory: { from: before.status, to: "shipping_updated", at: new Date(), actorType: actor.type, actorId: actor.id, actorName: actor.name, note: remarks } } }, { new: true }).lean();
   if (!o) throw notFound("Order");
   return o as OrderLean;
 }
@@ -322,10 +366,10 @@ export async function listOrdersAdmin(qy: AdminOrderQuery) {
   await connectDB();
   // an archived order with new activity (unread) shows up in the active list again, so nothing is missed
   const f: Record<string, unknown> = qy.view === "archived" ? { archivedAt: { $ne: null } } : { $or: [{ archivedAt: null }, { adminUnread: true }] };
-  if (qy.status) f.status = qy.status;
+  if (qy.status) f.status = { $in: qy.status === "to_ship" ? TO_SHIP_STATUSES : storedStatusesFor(qy.status) };
   if (qy.paymentStatus) f.paymentStatus = qy.paymentStatus;
   if (qy.customerId) f.customerId = toObjectId(qy.customerId, "customerId");
-  if (qy.q) f.orderNumber = qy.q.toUpperCase(); // exact match: index-friendly, no regex from user input
+  if (qy.q) f.orderNumber = new RegExp(escapeRegex(qy.q.toUpperCase())); // partial match for search-as-you-type; input is escaped
   if (qy.from || qy.to) f.createdAt = { ...(qy.from ? { $gte: qy.from } : {}), ...(qy.to ? { $lte: qy.to } : {}) };
   const [items, total] = await Promise.all([
     Order.find(f, { items: 0, statusHistory: 0 }).sort({ createdAt: -1 }).skip((qy.page - 1) * qy.pageSize).limit(qy.pageSize).lean(),
@@ -342,7 +386,11 @@ export async function getOrderAdmin(orderId: string) {
   const { Payment } = await import("@/models/Payment");
   const payments = await Payment.find({ orderId: oid }, { processedEvents: 0 }).sort({ createdAt: 1 }).lean();
   if (order.adminUnread) await Order.updateOne({ _id: oid }, { $set: { adminUnread: false } }, { timestamps: false });
-  return { order, payments };
+  // history entries written before actorName existed: resolve the admin's name for display
+  const ids = [...new Set(order.statusHistory.filter((h) => h.actorType === "admin" && !h.actorName && /^[a-f\d]{24}$/i.test(h.actorId ?? "")).map((h) => h.actorId!))];
+  const names = new Map(ids.length ? (await AdminUser.find({ _id: { $in: ids } }, { email: 1 }).lean()).map((a) => [String(a._id), a.email]) : []);
+  const returnInfo = (await returnsByOrder([oid])).get(String(oid));
+  return { order: { ...order, returnInfo, statusHistory: order.statusHistory.map((h) => ({ ...h, actorName: h.actorName ?? names.get(h.actorId ?? "") })) }, payments };
 }
 
 export const countUnreadOrdersAdmin = () => connectDB().then(() => Order.countDocuments({ adminUnread: true }));

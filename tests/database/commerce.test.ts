@@ -166,8 +166,7 @@ describe.skipIf(!HAS_DB)("commerce integrity (needs MONGODB_TEST_URI)", () => {
     expect(JSON.stringify(await O.getOrderForCustomer(c1.id, String(o!._id)))).not.toContain("adminNote");
     // transitions
     await expect(O.transitionOrderStatus(String(o!._id), "delivered", { type: "admin", id: "a" })).rejects.toMatchObject({ code: "INVALID_TRANSITION" });
-    await expect(O.transitionOrderStatus(String(o!._id), "accepted", { type: "admin", id: "a" })).resolves.toBeTruthy();
-    await expect(O.transitionOrderStatus(String(o!._id), "confirmed", { type: "admin", id: "a" })).rejects.toMatchObject({ code: "PAYMENT_REQUIRED" });
+    await expect(O.transitionOrderStatus(String(o!._id), "accepted", { type: "admin", id: "a" })).rejects.toMatchObject({ code: "PAYMENT_REQUIRED" });
     // cancellation is idempotent and releases stock exactly once
     await O.cancelOrder(String(o!._id), { type: "admin", id: "a" }, "test");
     await O.cancelOrder(String(o!._id), { type: "admin", id: "a" }, "test");
@@ -328,8 +327,8 @@ describe.skipIf(!HAS_DB)("commerce integrity (needs MONGODB_TEST_URI)", () => {
     const t = await M.createCustomerTicket(c1.id, { subject: "Where is my order", body: "Please help" });
     await expect(M.getTicketForCustomer(c2.id, t.id)).rejects.toMatchObject({ code: "NOT_FOUND" });
     await expect(M.addCustomerReply(c2.id, t.id, { body: "hi" })).rejects.toMatchObject({ code: "TICKET_UNAVAILABLE" });
-    await expect(M.createPublicTicket({ name: "G", email: "g@x.com", subject: "Hello", body: "short", website: "" })).rejects.toBeTruthy();
-    const pub = await M.createPublicTicket({ name: "G", email: "g@x.com", subject: "Hello there", body: "<script>x</script>Need help with delivery" });
+    await expect(M.createContactTicket(c1.id, { name: "G", subject: "Hello", body: "short", website: "" })).rejects.toBeTruthy();
+    const pub = await M.createContactTicket(c1.id, { name: "G", subject: "Hello there", body: "<script>x</script>Need help with delivery" });
     expect(pub.ticketNumber).toMatch(/^TKT-/);
     expect((await Message.findOne({ ticketNumber: pub.ticketNumber }).lean())!.thread[0]!.body).toBe("xNeed help with delivery");
     await Message.updateOne({ _id: t.id }, { $set: { messageCount: 200 } });

@@ -22,6 +22,43 @@ export const SectionTabs = ({ tabs, active, onChange }: { tabs: { id: string; la
   </div>
 );
 
+type Block = { type: "p" | "h"; text: string } | { type: "ul"; items: string[] };
+
+/** Reads the admin's plain text: bullet lines become a list, a short line ending in ":" a sub-heading, the rest paragraphs. */
+function toBlocks(text: string): Block[] {
+  const out: Block[] = [];
+  let open = false; // a paragraph that the next line may continue
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    const bullet = /^(?:[-*•●▪✓✔]|\d{1,2}[.)])\s+(.*)$/.exec(line)?.[1];
+    const last = out[out.length - 1];
+    if (!line) { open = false; continue; }
+    if (bullet) { if (last?.type === "ul") last.items.push(bullet); else out.push({ type: "ul", items: [bullet] }); open = false; }
+    else if (line.length <= 60 && line.endsWith(":")) { out.push({ type: "h", text: line.slice(0, -1) }); open = false; }
+    else if (open && last?.type === "p") last.text += `\n${line}`;
+    else { out.push({ type: "p", text: line }); open = true; }
+  }
+  return out;
+}
+
+/** The description tab. Long text starts folded, mainly so phones are not one endless scroll. Rendered as text only. */
+export function ProductDescription({ text }: { text: string }) {
+  const [all, setAll] = useState(false);
+  const blocks = useMemo(() => toBlocks(text), [text]);
+  const long = text.length > 600 || text.split("\n").length > 10;
+  return (
+    <article className="pd-about">
+      <header><i aria-hidden="true"><FiFileText /></i><div><b aria-hidden="true">About this product</b><span>Details and highlights</span></div></header>
+      {!blocks.length ? <p className="pd-about-none">No description provided.</p> : (
+        <div id="pd-about-body" className={`pd-about-body${long && !all ? " folded" : ""}`}>
+          {blocks.map((b, i) => b.type === "ul" ? <ul key={i}>{b.items.map((t, n) => <li key={n}><i aria-hidden="true"><FiCheckCircle /></i><span>{t}</span></li>)}</ul> : b.type === "h" ? <h3 key={i}>{b.text}</h3> : <p key={i}>{b.text}</p>)}
+        </div>
+      )}
+      {long && <button type="button" className="pd-about-more" aria-expanded={all} aria-controls="pd-about-body" onClick={() => setAll(!all)}>{all ? "Show less" : "Read full description"}</button>}
+    </article>
+  );
+}
+
 export function SpecTable({ rows }: { rows: [string, string | undefined | null][] }) {
   const r = rows.filter(([, v]) => v);
   return r.length ? <table className="sf-spec"><tbody>{r.map(([k, v]) => <tr key={k}><th scope="row">{k}</th><td>{v}</td></tr>)}</tbody></table> : <p className="muted">No additional details.</p>;

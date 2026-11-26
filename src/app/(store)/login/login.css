@@ -59,3 +59,5 @@
 .sf .lgn-side li i{flex:none}
 }
 @media(prefers-reduced-motion:reduce){.sf .lgn{animation:none}.sf .lgn-side li{transition:none}.sf .lgn-side li:hover{transform:none}}
+
+.sf .lgn-alert.info{border:1px solid #bfe0d6;background:#eaf7f2;color:#0b5a54}

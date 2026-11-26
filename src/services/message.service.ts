@@ -1,5 +1,5 @@
 import { connectDB } from "@/lib/db/connection";
-import { conflict, notFound } from "@/lib/errors";
+import { AppError, conflict, notFound } from "@/lib/errors";
 import { toObjectId } from "@/lib/ids";
 import { sanitizeText } from "@/lib/sanitize";
 import { notifyCustomer, notifyStore, queueEmail } from "./email.service";
@@ -7,22 +7,29 @@ import { nextTicketNumber } from "@/lib/sequence";
 import { Customer } from "@/models/Customer";
 import { MAX_MESSAGES_PER_TICKET, Message } from "@/models/Message";
 import { Order } from "@/models/Order";
-import { CustomerTicketInput, PublicContactInput, ReplyInput, customerTicketSchema, publicContactSchema, replySchema } from "@/validations/message.validation";
+import { ContactInput, CustomerTicketInput, ReplyInput, contactSchema, customerTicketSchema, replySchema } from "@/validations/message.validation";
 
 const THREAD_PAGE = 50;
 
-/** Public contact form. Honeypot is enforced by the schema (`website` must be empty); IP rate limiting belongs in the route. */
-export async function createPublicTicket(input: PublicContactInput) {
+/**
+ * Contact form. `customerId` comes from the session; the e-mail is read from that customer's record, never from the form.
+ * `guest` holds the contact details as submitted (the field older contact tickets already use).
+ */
+export async function createContactTicket(customerId: string, input: ContactInput) {
   await connectDB();
-  const d = publicContactSchema.parse(input);
-  const order = d.orderNumber ? await Order.findOne({ orderNumber: d.orderNumber }, { _id: 1 }).lean() : null; // never reveals order data
-  const body = sanitizeText(d.body);
+  const d = contactSchema.parse(input);
+  const cid = toObjectId(customerId);
+  const c = await Customer.findOne({ _id: cid, status: "active" }, { email: 1 }).lean();
+  if (!c?.email) throw notFound("Customer");
+  const email = c.email.toLowerCase(), name = sanitizeText(d.name), subject = sanitizeText(d.subject), body = sanitizeText(d.body);
+  if (!name || subject.length < 3 || body.length < 10) throw new AppError("VALIDATION_ERROR", 400, "Enter your name, a subject and a message of at least 10 characters");
+  const order = d.orderNumber ? await Order.findOne({ orderNumber: d.orderNumber, customerId: cid }, { _id: 1 }).lean() : null;
   const t = await Message.create({
-    ticketNumber: await nextTicketNumber(), guest: { name: sanitizeText(d.name), email: d.email.toLowerCase(), phone: d.phone }, orderId: order?._id,
-    subject: sanitizeText(d.subject), category: d.category, thread: [{ senderType: "guest", body }], messageCount: 1, lastMessageAt: new Date(), adminUnread: true,
+    ticketNumber: await nextTicketNumber(), customerId: cid, guest: { name, email, phone: d.phone || undefined }, orderId: order?._id,
+    subject, category: d.category, thread: [{ senderType: "customer", senderId: String(cid), body }], messageCount: 1, lastMessageAt: new Date(), adminUnread: true,
   });
-  await notifyStore("adminNewTicket", { ticketNumber: t.ticketNumber, ticketId: String(t._id), subject: sanitizeText(d.subject), from: `${sanitizeText(d.name)} (${d.email.toLowerCase()})`, message: body }, `admin-ticket:${t._id}`);
-  return { ticketNumber: t.ticketNumber }; // guests receive only the ticket number
+  await notifyStore("adminNewTicket", { ticketNumber: t.ticketNumber, ticketId: String(t._id), subject, from: `${name} (${email})`, message: body }, `admin-ticket:${t._id}`);
+  return { ticketNumber: t.ticketNumber };
 }
 
 export async function createCustomerTicket(customerId: string, input: CustomerTicketInput) {
@@ -74,8 +81,9 @@ export async function addAdminReply(ticketId: string, adminId: string, input: Re
   const r = await appendMessage({ _id: toObjectId(ticketId) }, { senderType: "admin", senderId: adminId }, input, "pending");
   const t = await Message.findById(toObjectId(ticketId), { customerId: 1, guest: 1, subject: 1, ticketNumber: 1 }).lean();
   const key = `ticket-reply:${ticketId}:${r.messageCount}`, data = { ticketNumber: t?.ticketNumber, ticketId, subject: t?.subject, preview: sanitizeText(replySchema.parse(input).body) };
-  if (t?.customerId) await notifyCustomer(t.customerId, "ticketReply", data, key);
-  else await queueEmail({ to: t?.guest?.email, template: "ticketReply", data, dedupeKey: key });
+  // a contact-form message is answered at the address stored with it; other tickets use the account's address
+  if (t?.guest?.email && !(t.customerId && (await Customer.exists({ _id: t.customerId, status: "deleted" })))) await queueEmail({ to: t.guest.email, template: "ticketReply", data: { name: t.guest.name, ...data }, dedupeKey: key });
+  else if (t?.customerId) await notifyCustomer(t.customerId, "ticketReply", data, key);
   return r;
 }
 
@@ -111,7 +119,10 @@ export async function listTicketsAdmin(opts: { status?: string; page?: number; p
     Message.find(filter, { thread: { $slice: 1 } }).sort({ lastMessageAt: -1 }).skip((page - 1) * size).limit(size).lean(),
     Message.countDocuments(filter),
   ]);
-  return { items, page, pageSize: size, total, totalPages: Math.max(1, Math.ceil(total / size)) };
+  // tickets opened from the account area carry no contact details of their own: show the account's e-mail
+  const ids = items.filter((t) => !t.guest?.email && t.customerId).map((t) => t.customerId);
+  const emails = new Map(ids.length ? (await Customer.find({ _id: { $in: ids } }, { email: 1 }).lean()).map((c) => [String(c._id), c.email]) : []);
+  return { items: items.map((t) => ({ ...t, customerEmail: t.guest?.email ?? emails.get(String(t.customerId)) })), page, pageSize: size, total, totalPages: Math.max(1, Math.ceil(total / size)) };
 }
 
 export async function getTicketAdmin(ticketId: string, threadPage = 1) {
@@ -120,7 +131,8 @@ export async function getTicketAdmin(ticketId: string, threadPage = 1) {
   const t = await Message.findById(toObjectId(ticketId), { thread: { $slice: [skip, THREAD_PAGE] } }).lean();
   if (!t) throw notFound("Ticket");
   if (t.adminUnread) await Message.updateOne({ _id: t._id }, { $set: { adminUnread: false } }, { timestamps: false });
-  return t;
+  const account = t.customerId ? await Customer.findById(t.customerId, { email: 1, displayName: 1, phone: 1 }).lean() : null;
+  return { ...t, account: account ? { name: account.displayName, email: account.email, phone: account.phone } : null };
 }
 
 export const countUnreadTicketsAdmin = () => connectDB().then(() => Message.countDocuments({ adminUnread: true }));

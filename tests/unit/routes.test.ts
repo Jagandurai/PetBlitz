@@ -205,7 +205,7 @@ beforeEach(() => {
   });
   vi.mocked(Cust.getOwnProfile).mockResolvedValue({ addresses: [] } as never);
   vi.mocked(Cust.addAddress).mockResolvedValue(OID);
-  vi.mocked(Msg.createPublicTicket).mockResolvedValue({
+  vi.mocked(Msg.createContactTicket).mockResolvedValue({
     ticketNumber: "TKT-000001",
   });
   vi.mocked(Maint.runMaintenance).mockResolvedValue({
@@ -353,7 +353,7 @@ describe("route-specific behaviour", () => {
     });
 
     expect(r.status).toBe(202);
-    expect(Msg.createPublicTicket).not.toHaveBeenCalled();
+    expect(Msg.createContactTicket).not.toHaveBeenCalled();
   });
 
   it("contact form: 6th request in the window is rate limited (429)", async () => {

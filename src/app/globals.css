@@ -382,3 +382,70 @@ body:has(.sf-dr.r) .toasts{right:auto;left:16px}
 .adm .menu-btn{position:relative}
 /* round count on the sidebar, like an app icon badge */
 .adm .sb .ntf-count{min-width:22px;height:22px;box-shadow:0 0 0 2px rgba(255,255,255,.18)}
+
+/* support ticket: who sent it */
+.tk-who{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px 18px;margin:0 0 10px}
+.tk-who dt{font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.tk-who dd{margin:3px 0 0;font-weight:600;overflow-wrap:anywhere}
+
+/* ---------------------------------------------------------------- admin portal on tablets and phones (scoped to .adm) */
+/* wide tables always scroll inside their own card: these must beat the cards' "overflow:hidden" */
+.adm .main .tw,.adm .main .card.flush.tw,.adm .main .set-card.tw,.adm .modal .tw{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+/* the menu and dialogs use the height that is really visible, not what hides behind the phone's browser bars */
+.adm .sb{height:100vh;height:100dvh;overscroll-behavior:contain}
+.adm .sb>*{flex-shrink:0}
+.adm .modal{max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overscroll-behavior:contain}
+
+@media(max-width:900px){
+.adm{grid-template-columns:minmax(0,1fr)}
+.adm .sb{width:min(280px,86vw);padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+body:has(.adm.open){overflow:hidden}
+.adm .main-wrap,.adm .main,.adm .main>*{min-width:0;max-width:100%}
+.adm .main{padding-bottom:calc(32px + env(safe-area-inset-bottom))}
+.adm .crumbs{min-width:0;white-space:nowrap}.adm .crumbs strong{overflow:hidden;text-overflow:ellipsis}
+/* headings and their buttons stack instead of running off the screen */
+.adm .main .top{flex-wrap:wrap;gap:10px}
+.adm .main .top>*{min-width:0;max-width:100%}
+.adm .main h1{overflow-wrap:anywhere}
+.adm .main .set .top h1{max-width:100%}
+/* grid tracks may shrink below their content */
+.adm .g2,.adm .g3,.adm .g4,.adm .dash-grid,.adm .acct-grid,.adm .blg-cols,.adm .tk-who,.adm .bnr-grid{grid-template-columns:minmax(0,1fr)}
+.adm .grid>*,.adm .dash-grid>*,.adm .acct-grid>*,.adm .blg-cols>*{min-width:0}
+.adm .card,.adm .set-card{min-width:0}
+/* tables keep readable columns and are swiped sideways */
+.adm .tw>table.t{min-width:640px}
+.adm .tw>table.t.osh{min-width:760px}
+.adm .rt-act{flex-wrap:nowrap}
+.adm .set-tabs{flex-wrap:nowrap;overflow-x:auto}
+.adm .set-tabs button{flex:1 0 auto}
+.adm .pl-filter>*{flex:1 1 180px;min-width:0}
+.adm .pl-filter .grow{min-width:0;flex-basis:100%}
+.adm .pl-sel{min-width:0}
+.adm .tk-msg{max-width:100%}.adm .tk-bub{min-width:0;overflow-wrap:anywhere}
+.adm .savebar{flex-wrap:wrap}
+.adm pre{max-width:100%;overflow-x:auto}
+/* category tree: less indent, actions wrap onto their own line */
+.adm .tree ul{padding-left:10px}
+.adm .tree .node .row{margin-left:0!important;flex-wrap:wrap}
+.adm .tree .node .nm{overflow-wrap:anywhere}
+.adm .cat-q{width:100%;flex:1 1 100%}
+}
+
+@media(max-width:600px){
+.adm .main{padding-left:12px;padding-right:12px}
+.adm .topbar{padding:10px 12px;gap:10px}
+.adm .main .card:not(.flush):not(.tw){padding:16px 14px}
+.adm .sd .card .tw{margin:0 -14px -16px}
+.adm .sd .card.flush .tw{margin:0}
+.adm .sd .card.row{padding:14px}
+.adm .set .set-card:not(.pl-tbl){padding:16px 14px}
+.adm .dash-hero{padding:18px 16px}
+.adm .hero-actions{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.adm .hero-actions>*{width:100%;min-width:0}.adm .hero-actions>select{grid-column:1/-1}
+.adm .qa{grid-template-columns:minmax(0,1fr)}
+.adm .fee-row{grid-template-columns:minmax(0,1fr) 90px auto}
+.adm .modal-bg{padding:8px}.adm .modal{padding:16px}
+.adm .bl-editor .tiptap{padding:14px}
+/* 16px stops iOS from zooming the page when a field is tapped */
+.adm input,.adm select,.adm textarea{font-size:16px}
+}

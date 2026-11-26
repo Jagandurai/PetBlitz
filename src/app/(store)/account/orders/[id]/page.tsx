@@ -1,19 +1,20 @@
 "use client";
 import Link from "next/link";
-import { FiArrowLeft, FiCheck, FiCreditCard, FiFileText, FiMapPin, FiPackage } from "react-icons/fi";
+import { FiArrowLeft, FiCreditCard, FiFileText, FiMapPin, FiPackage } from "react-icons/fi";
 import { useParams, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { Alert, Badge, Button, Confirm, ErrorBox, Img, Modal, Select, Spinner, TextArea } from "@/components/ui";
 import { api, errText } from "@/lib/ui/api";
 import { payOrderWithRazorpay } from "@/lib/ui/razorpay";
-import { dt, inr, title } from "@/lib/ui/format";
+import { dt, inr } from "@/lib/ui/format";
+import { ReturnInfo, SHIPPED_STAGES, normalizeStatus, orderStatusLabel, stageIndex } from "@/lib/order-status";
+import { OrderTimeline, Shipment, ShipmentCard } from "@/components/store/order-timeline";
 import { useAction, useApi, useAuth, useToast } from "@/lib/ui/hooks";
 import { useSeen } from "@/lib/ui/unread";
 import "./order-detail.css";
 
 interface Item { _id: string; itemType: string; name: string; imageUrl?: string; quantity: number; unitPrice: number; lineTotal: number; taxAmount: number; slug?: string }
-interface Order { _id: string; orderNumber: string; status: string; paymentStatus: string; createdAt: string; items: Item[]; subtotal: number; discountTotal: number; couponCode?: string; couponDiscount?: number; shippingTotal: number; taxTotal: number; grandTotal: number; amountPaid: number; amountRefunded: number; pricesIncludeTax?: boolean; shippingAddress: Record<string, string>; shipping?: { partner?: string; trackingNumber?: string; trackingUrl?: string; estimatedDelivery?: string }; statusHistory: { to: string; at: string }[]; cancellation?: { reason?: string } }
-const FLOW = ["placed", "accepted", "confirmed", "processing", "shipped", "in_transit", "out_for_delivery", "delivered"];
+interface Order { _id: string; orderNumber: string; status: string; paymentStatus: string; createdAt: string; items: Item[]; subtotal: number; discountTotal: number; couponCode?: string; couponDiscount?: number; shippingTotal: number; taxTotal: number; grandTotal: number; amountPaid: number; amountRefunded: number; pricesIncludeTax?: boolean; shippingAddress: Record<string, string>; shipping?: Shipment; statusHistory: { from?: string; to: string; at: string }[]; returnInfo?: ReturnInfo; cancellation?: { reason?: string } }
 
 function Inner() {
   const { id } = useParams<{ id: string }>();
@@ -26,8 +27,8 @@ function Inner() {
   // payment may be confirmed by the webhook a moment after Razorpay closes: poll briefly while pending after a pay attempt
   const [poll, setPoll] = useState(0);
   useEffect(() => { if (!poll || o?.paymentStatus !== "pending") return; const t = setTimeout(() => { reload(); setPoll((p) => (p > 6 ? 0 : p + 1)); }, 2500); return () => clearTimeout(t); }, [poll, o?.paymentStatus, reload]);
-  // admin status changes show up without a manual reload
-  useEffect(() => { const t = setInterval(() => { if (document.visibilityState === "visible") reload(); }, 30000); return () => clearInterval(t); }, [reload]);
+  // admin status changes show up without a manual reload: every 30 s, and as soon as the tab is looked at again
+  useEffect(() => { const load = () => { if (document.visibilityState === "visible") reload(); }; const t = setInterval(load, 30000); window.addEventListener("focus", load); return () => { clearInterval(t); window.removeEventListener("focus", load); }; }, [reload]);
   useSeen(!!o);
   if (loading && !o) return <Spinner />;
   if (error || !o) return <ErrorBox msg={error ?? "Order not found"} retry={reload} />;
@@ -36,7 +37,7 @@ function Inner() {
   const payCard = async () => { setPaying(true); try { const r = await payOrderWithRazorpay(o._id, prefill); toast(r.handled ? "Payment received. Thank you!" : "Payment is being confirmed…", "ok"); setPoll(1); reload(); } catch (e) { toast(errText(e), "err"); } finally { setPaying(false); } };
   const payWallet = async () => { const r = await run(() => api("/api/me/orders/" + o._id + "/pay/wallet", { method: "POST" }), "Paid from wallet"); if (r) { await refresh(); reload(); } };
   const cancellable = ["placed", "accepted", "confirmed"].includes(o.status);
-  const idx = FLOW.indexOf(o.status);
+  const stage = stageIndex(o.status);
   return (
     <div className="odt">
       <header className="odt-head">
@@ -45,7 +46,7 @@ function Inner() {
           <h1>Order {o.orderNumber}</h1>
           <p>Placed {dt(o.createdAt)}</p>
         </div>
-        <div className="odt-badges"><Badge status={o.status} label={title(o.status)} /><Badge status={o.paymentStatus} label={`Payment: ${o.paymentStatus.replace("_", " ")}`} /></div>
+        <div className="odt-badges"><Badge status={normalizeStatus(o.status)} label={orderStatusLabel(o.status)} /><Badge status={o.paymentStatus} label={`Payment: ${o.paymentStatus.replace("_", " ")}`} /></div>
       </header>
       {sp.get("pay") && payable && <Alert kind="info">Your order is placed. <strong>Complete the payment below</strong> to confirm it — unpaid orders are released after 30 minutes.</Alert>}
       {payable && (
@@ -55,15 +56,13 @@ function Inner() {
           {me && me.wallet.balance < o.grandTotal && me.wallet.balance > 0 && <p>Wallet balance {inr(me.wallet.balance)} is lower than the total. <Link href="/account/wallet">Top up</Link></p>}
         </section>
       )}
-      {o.status !== "cancelled" && idx >= 0 && (
-        <section className="odt-card" aria-labelledby="odt-progress">
-          <h2 id="odt-progress">Order progress</h2>
-          <ol className="odt-track">{FLOW.map((s, i) => { const at = o.statusHistory.find((h) => h.to === s)?.at; const done = i < idx || o.status === "delivered"; return <li key={s} className={done ? "done" : i === idx ? "cur" : ""} aria-current={i === idx ? "step" : undefined}><i aria-hidden="true">{done ? <FiCheck /> : i + 1}</i><span><b>{title(s)}</b>{at && <small>{dt(at)}</small>}</span></li>; })}</ol>
-        </section>
-      )}
+      <section className="odt-card" aria-labelledby="odt-progress">
+        <h2 id="odt-progress"><FiPackage aria-hidden="true" /> Order progress</h2>
+        <OrderTimeline status={o.status} history={o.statusHistory} createdAt={o.createdAt} returnInfo={o.returnInfo} />
+      </section>
       {o.status === "cancelled" && <Alert kind="warn">This order was cancelled{o.cancellation?.reason ? `: ${o.cancellation.reason}` : ""}.{o.amountRefunded > 0 && ` ${inr(o.amountRefunded)} was refunded to your wallet.`}</Alert>}
-      {o.shipping?.trackingNumber && <p className="odt-ship"><FiPackage aria-hidden="true" /><span>{o.shipping.partner ?? "Courier"} · Tracking <strong>{o.shipping.trackingNumber}</strong> {o.shipping.estimatedDelivery && <>· Est. delivery {dt(o.shipping.estimatedDelivery)} </>}{o.shipping.trackingUrl && <a href={o.shipping.trackingUrl} target="_blank" rel="noopener noreferrer">Track Shipment →</a>}</span></p>}
-      {!o.shipping?.trackingNumber && ["placed", "accepted", "confirmed", "processing"].includes(o.status) && <p className="odt-ship quiet"><FiPackage aria-hidden="true" /><span>Shipping details will appear here once your order is shipped.</span></p>}
+      {o.status !== "cancelled" && <ShipmentCard shipping={o.shipping} />}
+      {!o.shipping?.trackingNumber && stage >= 0 && !SHIPPED_STAGES.includes(normalizeStatus(o.status)) && <p className="odt-ship quiet"><FiPackage aria-hidden="true" /><span>Shipping details will appear here once your order is dispatched.</span></p>}
       <section className="odt-card" aria-labelledby="odt-items">
         <h2 id="odt-items">Items ({o.items.length})</h2>
         <ul className="odt-items">
@@ -94,7 +93,7 @@ function Inner() {
           </dl>
         </section>
       </div>
-      <div className="odt-actions noprint">{["shipped", "in_transit", "out_for_delivery", "delivered"].includes(o.status) && <Link className="btn ghost" href={`/account/orders/${o._id}/invoice`}>View GST invoice</Link>}<Link className="btn ghost" href="/account/support">Need help?</Link>{cancellable && <Button className="ghost odt-cancel" onClick={() => setCancel(true)}>Cancel order</Button>}</div>
+      <div className="odt-actions noprint">{SHIPPED_STAGES.includes(normalizeStatus(o.status)) && <Link className="btn ghost" href={`/account/orders/${o._id}/invoice`}>View GST invoice</Link>}<Link className="btn ghost" href="/account/support">Need help?</Link>{cancellable && <Button className="ghost odt-cancel" onClick={() => setCancel(true)}>Cancel order</Button>}</div>
       <Confirm open={cancel} onClose={() => setCancel(false)} danger busy={busy} title="Cancel this order?" confirmLabel="Yes, cancel" onConfirm={async () => { const r = await run(() => api(`/api/me/orders/${o._id}/cancel`, { method: "POST", body: { reason: "Cancelled by customer" } }), "Order cancelled"); if (r) { setCancel(false); await refresh(); reload(); } }}>
         <p>{o.paymentStatus === "paid" ? `${inr(o.amountPaid)} will be refunded to your PetBlitz wallet immediately.` : "You have not been charged."}</p></Confirm>
       {review && <ReviewModal order={o} item={review} onClose={() => setReview(null)} />}

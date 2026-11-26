@@ -12,7 +12,7 @@ import { WalletTransaction } from "@/models/WalletTransaction";
 import { anonymizeCustomer, toCustomerProfile } from "./customer.service";
 import { toCustomerOrder } from "./order.service";
 
-const ACTIVE_ORDER = ["placed", "accepted", "confirmed", "processing", "shipped", "in_transit", "out_for_delivery", "refund_initiated"];
+const ACTIVE_ORDER = ["placed", "accepted", "packed", "dispatched", "confirmed", "processing", "shipped", "in_transit", "out_for_delivery", "refund_initiated"];
 
 /** DPDP-style data export: everything we hold about the signed-in customer, as JSON. Internal notes and idempotency keys are excluded. */
 export async function exportMyData(customerId: string) {

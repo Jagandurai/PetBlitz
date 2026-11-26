@@ -2,13 +2,14 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { FiAlertCircle, FiHeart, FiLock, FiPackage, FiRefreshCw, FiShield } from "react-icons/fi";
 import { FaPaw } from "react-icons/fa6";
 import { homeFonts } from "@/components/home/fonts";
 import { Skel } from "@/components/store/ui";
 import { PublicSettings } from "@/components/store/types";
+import { safeNext } from "@/lib/safe-redirect";
 import { api, errText } from "@/lib/ui/api";
 import { useApi, useAuth } from "@/lib/ui/hooks";
 import "./login.css";
@@ -24,13 +25,14 @@ const BENEFITS = [
 
 function LoginInner() {
   const { me, refresh } = useAuth();
-  const router = useRouter(), sp = useSearchParams();
-  const raw = sp.get("next") ?? "";
-  const next = raw.startsWith("/") && !raw.startsWith("//") ? raw : "/account"; // same-site paths only: no open redirect
+  const sp = useSearchParams();
+  const next = safeNext(sp.get("next")); // same-site paths only: no open redirect, no loop back to this page
+  const forContact = next === "/contact" || next.startsWith("/contact?");
   const { data: s } = useApi<PublicSettings>("/api/settings/public");
   const btn = useRef<HTMLDivElement>(null);
   const [err, setErr] = useState<string | null>(null);
-  useEffect(() => { if (me) router.replace(next); }, [me, next, router]);
+  // a full load, so pages that check the session on the server never reuse what they showed while signed out
+  useEffect(() => { if (me) window.location.replace(next); }, [me, next]);
   useEffect(() => {
     if (!s?.googleClientId || !btn.current) return;
     const el = btn.current;
@@ -49,6 +51,7 @@ function LoginInner() {
         <p className="lgn-hello"><FaPaw aria-hidden="true" /> Welcome, pet parent</p>
         <h1 id="lgn-title">Sign in or create your account</h1>
         <p className="lgn-sub">Continue with Google. New customers are registered automatically.</p>
+        {forContact && <div className="lgn-alert info" role="status"><FiLock aria-hidden="true" />Please log in to your PetBlitz account to contact our support team.</div>}
         {err && <div className="lgn-alert error" role="alert"><FiAlertCircle aria-hidden="true" />{err}</div>}
         {s && !s.googleClientId && <div className="lgn-alert warn" role="status"><FiAlertCircle aria-hidden="true" />Google sign-in isn&apos;t configured yet.</div>}
         <div className="lgn-google">

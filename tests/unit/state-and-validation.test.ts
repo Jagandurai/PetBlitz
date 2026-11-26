@@ -5,7 +5,7 @@ import { createOrderSchema } from "@/validations/order.validation";
 import { customerSelfUpdateSchema } from "@/validations/customer.validation";
 import { createProductSchema } from "@/validations/product.validation";
 import { createReviewSchema } from "@/validations/review.validation";
-import { publicContactSchema } from "@/validations/message.validation";
+import { contactSchema } from "@/validations/message.validation";
 import { createCategorySchema } from "@/validations/category.validation";
 import { productListQuery } from "@/validations/product.validation";
 import { addCartItemSchema } from "@/validations/cart.validation";
@@ -19,7 +19,9 @@ describe("order transitions", () => {
     expect(canTransition("delivered", "refund_initiated")).toBe(true);
     expect(() => assertTransition("placed", "delivered")).toThrow();
     expect(() => assertTransition("refunded", "placed")).toThrow();
-    expect(() => assertTransition("shipped", "cancelled")).toThrow();
+    expect(() => assertTransition("dispatched", "cancelled")).toThrow();
+    expect(() => assertTransition("accepted", "dispatched")).toThrow(); // no skipping
+    expect(() => assertTransition("packed", "accepted")).toThrow(); // no going back
     expect(ORDER_TRANSITIONS.refunded).toEqual([]);
   });
 });
@@ -54,10 +56,11 @@ describe("validation", () => {
     expect(createReviewSchema.safeParse({ orderId: id, orderItemId: id, rating: 6 }).success).toBe(false);
   });
   it("contact form: honeypot and size limits", () => {
-    const ok = { name: "A", email: "a@b.co", subject: "Hello", body: "A long enough message." };
-    expect(publicContactSchema.safeParse(ok).success).toBe(true);
-    expect(publicContactSchema.safeParse({ ...ok, website: "spam.com" }).success).toBe(false);
-    expect(publicContactSchema.safeParse({ ...ok, body: "x".repeat(5001) }).success).toBe(false);
+    const ok = { name: "A", subject: "Hello", body: "A long enough message." };
+    expect(contactSchema.safeParse(ok).success).toBe(true);
+    expect(contactSchema.parse({ ...ok, email: "someone@else.com" })).not.toHaveProperty("email");
+    expect(contactSchema.safeParse({ ...ok, website: "spam.com" }).success).toBe(false);
+    expect(contactSchema.safeParse({ ...ok, body: "x".repeat(5001) }).success).toBe(false);
   });
   it("root categories require a type; names are free text (no enum of names)", () => {
     expect(createCategorySchema.safeParse({ name: "Reptiles & Birds" }).success).toBe(false);

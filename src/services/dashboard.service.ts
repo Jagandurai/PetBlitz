@@ -1,4 +1,5 @@
 import { connectDB } from "@/lib/db/connection";
+import { TO_SHIP_STATUSES } from "@/lib/order-status";
 import { Message } from "@/models/Message";
 import { Order } from "@/models/Order";
 import { Product } from "@/models/Product";
@@ -15,7 +16,7 @@ export async function getDashboard() {
   const [last7, last30, toAccept, toShip, unpaid, pendingReviews, openTickets, openReturns, lowStock, customers, daily] = await Promise.all([
     sales(7), sales(30),
     Order.countDocuments({ status: "placed", paymentStatus: "paid" }),
-    Order.countDocuments({ status: { $in: ["confirmed", "processing"] } }),
+    Order.countDocuments({ status: { $in: TO_SHIP_STATUSES } }),
     Order.countDocuments({ status: "placed", paymentStatus: "pending" }),
     Review.countDocuments({ status: "pending" }),
     Message.countDocuments({ status: { $in: ["open", "pending"] } }),

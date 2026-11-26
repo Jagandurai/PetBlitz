@@ -10,7 +10,7 @@ function redirectToLogin(path: string) {
     if (path.startsWith("/api/admin/auth/login") || path.startsWith("/api/admin/auth/google") || here.startsWith("/admin/login")) return;
     window.location.replace("/admin/login");
   } else if (path.startsWith("/api/") && !path.startsWith("/api/auth/") && here !== "/login") {
-    window.location.replace(`/login?next=${encodeURIComponent(here)}`);
+    window.location.replace(`/login?next=${encodeURIComponent(here + window.location.search)}`);
   }
 }
 
