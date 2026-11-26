@@ -9,8 +9,8 @@ export const BANNER_LAYOUT = {
   height: 600,
   gap: 12,
   columns: [5, 4, 3] as const,
-  /** Phones (container under 600px). */
-  mobile: [4 / 5, 3 / 4, 3 / 4, 16 / 10] as const,
+  /** Phones (container under 600px). Banners 2–4 are full width in their desktop shapes, so artwork is not cut off. */
+  mobile: [4 / 5, 405 / 294, 304 / 294, 721 / 294] as const,
   /** Tablets. Banner 1 has no entry: it spans both rows, so its height follows banners 2 and 3. */
   tablet: { side: 4 / 3, wide: 21 / 9 },
 };
