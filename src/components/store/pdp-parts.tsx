@@ -1,5 +1,6 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { FiCheckCircle, FiCopy, FiFileText, FiList, FiStar, FiRefreshCw, FiShare2, FiShield, FiTruck } from "react-icons/fi";
 import { ItemCard } from "./card";
@@ -55,7 +56,7 @@ export function Reviews({ id, rating }: { id: string; rating: { count: number; a
       <div className="sf-rs"><b>{rating.average?.toFixed(1) ?? "–"}</b><div><Stars r={rating} big /></div><p className="muted small" style={{ margin: "6px 0 0" }}>{rating.count ? `${rating.count} verified rating${rating.count > 1 ? "s" : ""}` : "Be the first to review"}</p>
         {sample > 0 && <div className="sf-bars" style={{ textAlign: "left", marginTop: 12 }}>{dist.map((d) => <div key={d.n}><span style={{ width: 28 }}>{d.n}★</span><span className="t"><i style={{ width: `${(d.c / sample) * 100}%` }} /></span><span style={{ width: 24, textAlign: "right" }}>{d.c}</span></div>)}</div>}</div>
       <div>
-        {!data ? <p className="muted">Loading reviews…</p> : !data.items.length ? <div className="pd-noreview"><span aria-hidden="true">★★★★★</span><b>No reviews yet</b><p>Purchased this? You can review it from your orders once delivered.</p><a className="sf-btn" href="/account/orders">Go to my orders</a></div> : <>
+        {!data ? <p className="muted">Loading reviews…</p> : !data.items.length ? <div className="pd-noreview"><span aria-hidden="true">★★★★★</span><b>No reviews yet</b><p>Purchased this? You can review it from your orders once delivered.</p><Link className="sf-btn" href="/account/orders">Go to my orders</Link></div> : <>
           {data.items.slice(0, show).map((r) => <div key={r.id} className="sf-rv"><div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}><span style={{ color: "var(--star)", letterSpacing: 1 }} aria-label={`${r.rating} out of 5`}>{"★".repeat(r.rating)}<span style={{ color: "#d0d5dd" }}>{"★".repeat(5 - r.rating)}</span></span>{r.title && <b>{r.title}</b>}</div>{r.comment && <p style={{ margin: "6px 0" }}>{r.comment}</p>}
             {r.images?.length ? <div style={{ display: "flex", gap: 8 }}>{r.images.map((im) => /* eslint-disable-next-line @next/next/no-img-element */ <img key={im.url} src={im.url} alt="Customer photo" style={{ width: 72, height: 72, objectFit: "cover", borderRadius: 8 }} loading="lazy" />)}</div> : null}
             <div className="muted small" style={{ display: "flex", gap: 8 }}>{r.verifiedPurchase && <span style={{ color: "var(--ok)", fontWeight: 700 }}><FiCheckCircle style={{ verticalAlign: "-2px" }} /> Verified purchase</span>}<span>{day(r.createdAt)}</span></div></div>)}
