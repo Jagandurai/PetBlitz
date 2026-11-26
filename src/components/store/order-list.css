@@ -1,0 +1,50 @@
+/* Order cards and the Track an order page. */
+.sf .od-page{width:100%;max-width:920px;margin:0 auto;padding-top:8px}
+.sf .od-head{margin-bottom:18px}
+.sf .od-head h1{margin:0 0 6px;font-size:clamp(1.5rem,4vw,2rem);line-height:1.2}
+.sf .od-head p{margin:0;color:var(--mu);line-height:1.6}
+.sf .od-wrap{container:orders/inline-size;min-width:0}
+.sf .od-list{display:flex;flex-direction:column;gap:14px;margin:0;padding:0;list-style:none}
+.sf .od-card{min-width:0;padding:18px 20px;border:1px solid var(--ln);border-radius:18px;background:#fff;box-shadow:0 18px 30px -30px rgba(16,40,32,.7);transition:border-color .2s,box-shadow .2s}
+.sf .od-card:hover{border-color:#a9d3cb;box-shadow:0 22px 32px -26px rgba(11,90,84,.55)}
+.sf .od-top{display:flex;align-items:center;gap:12px}
+.sf .od-top>i{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:#e6f4f2;color:#0f766e;font-size:1.3rem}
+.sf .od-id{flex:1;min-width:0}
+.sf .od-card .od-id h2{margin:0;font-size:1.02rem;line-height:1.35;overflow-wrap:anywhere}
+.sf .od-id p{margin:2px 0 0;font-size:.82rem;color:var(--mu)}
+.sf .od-total{flex:none;font-size:1.15rem;white-space:nowrap}
+.sf .od-items{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;margin:12px 0 10px;line-height:1.55;color:#344054;overflow-wrap:anywhere}
+.sf .od-badges{display:flex;flex-wrap:wrap;gap:8px}
+.sf .od-badges .badge{padding:4px 12px}
+
+.sf .od-track{isolation:isolate;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:16px 0 0;padding:0;list-style:none}
+.sf .od-track li{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;font-size:.76rem;font-weight:700;text-align:center;color:#8a928f}
+.sf .od-track li::before{content:"";position:absolute;top:12px;right:50%;width:100%;height:3px;background:#e6e9e6}
+.sf .od-track li:first-child::before{display:none}
+.sf .od-track li span{position:relative;z-index:1;display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:#e9ece9;font-size:.74rem}
+.sf .od-track li.done,.sf .od-track li.now{color:#0b5a54}
+.sf .od-track li.done::before,.sf .od-track li.now::before{background:#0f766e}
+.sf .od-track li.done span{background:#0f766e;color:#fff}
+.sf .od-track li.now span{background:#fff;border:2px solid #0f766e;box-shadow:0 0 0 4px #e0f1ee}
+
+.sf .od-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--ln)}
+.sf .od-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:9px 20px;border:1.5px solid #0f766e;border-radius:999px;background:#0f766e;color:#fff;font-weight:700;font-size:.9rem;text-align:center;transition:background .2s}
+.sf .od-btn:hover{background:#0b5a54;color:#fff}
+.sf .od-btn.ghost{background:#fff;color:#0b5a54}.sf .od-btn.ghost:hover{background:#e6f4f2}
+.sf .od-btn:focus-visible{outline:2.5px solid #0f766e;outline-offset:3px}
+
+.sf .od-empty{display:flex;flex-direction:column;align-items:center;gap:6px;padding:40px 18px;border:1px dashed #cfd8d4;border-radius:20px;background:#fff;text-align:center}
+.sf .od-empty i{display:grid;place-items:center;width:62px;height:62px;margin-bottom:6px;border-radius:50%;background:#e6f4f2;color:#0f766e;font-size:1.8rem}
+.sf .od-empty b{font-size:1.15rem}
+.sf .od-empty p{margin:0 0 10px;color:var(--mu)}
+
+@container orders (max-width:520px){
+.sf .od-card{padding:14px 12px;border-radius:16px}
+.sf .od-top{gap:10px;flex-wrap:wrap}
+.sf .od-top>i{width:38px;height:38px;border-radius:12px;font-size:1.1rem}
+.sf .od-total{width:100%;padding-left:48px;font-size:1.2rem}
+.sf .od-track li{font-size:.68rem}
+.sf .od-actions{flex-direction:column}
+.sf .od-actions .od-btn{width:100%}
+}
+@media(prefers-reduced-motion:reduce){.sf .od-card,.sf .od-btn{transition:none}}

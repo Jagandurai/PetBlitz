@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+coverage/
+reports/
+*.tsbuildinfo
+next-env.d.ts
+# secrets - never commit
+.env
+.env.local
+.env.*.local
+.env.production

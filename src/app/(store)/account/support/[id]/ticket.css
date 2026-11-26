@@ -1,0 +1,36 @@
+/* One support request, shown as a compact conversation. */
+.sf .tkc{container:ticket/inline-size;display:flex;flex-direction:column;gap:12px;width:100%;min-width:0}
+.sf .tkc-back{display:inline-flex;align-items:center;gap:6px;min-height:30px;font-size:.86rem;font-weight:700;color:#0f766e}
+.sf .tkc .tkc-head h1{margin:2px 0 6px;font-size:clamp(1.25rem,4.6cqi,1.65rem);line-height:1.25;overflow-wrap:anywhere}
+.sf .tkc-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:.84rem;color:var(--mu)}
+
+.sf .tkc-card{overflow:hidden;border:1px solid var(--ln);border-radius:18px;background:#fff}
+.sf .tkc-thread{display:flex;flex-direction:column;gap:10px;margin:0;padding:16px;list-style:none;background:#f7faf8}
+.sf .tkc-thread li{display:flex;align-items:flex-end;gap:8px;min-width:0}
+.sf .tkc-thread li.mine{justify-content:flex-end}
+.sf .tkc-thread li>i{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#0A4C31;color:#fff}
+/* bubbles are only as wide as their text */
+.sf .tkc-bubble{width:fit-content;max-width:min(76%,560px);min-width:0;padding:9px 14px;border-radius:16px}
+.sf .tkc-bubble p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55}
+.sf .tkc-bubble span{display:block;margin-top:3px;font-size:.72rem}
+.sf .tkc-thread .mine .tkc-bubble{border-bottom-right-radius:5px;background:#0f766e;color:#fff}
+.sf .tkc-thread .mine .tkc-bubble span{color:#d5efe9;text-align:right}
+.sf .tkc-thread .staff .tkc-bubble{border:1px solid #dbe7e2;border-bottom-left-radius:5px;background:#fff}
+.sf .tkc-thread .staff .tkc-bubble span{color:var(--mu)}
+
+.sf .tkc-reply{display:flex;align-items:flex-end;gap:10px;padding:12px 16px;border-top:1px solid var(--ln)}
+.sf .tkc-reply label.f{flex:1;min-width:0;margin:0}
+.sf .tkc .tkc-reply textarea{display:block;width:100%;min-height:52px;max-height:220px;margin:0;padding:12px 14px;font-size:1rem;resize:vertical}
+.sf .tkc-reply .btn{flex:none;min-height:52px;padding-inline:22px}
+.sf .tkc-closed{display:flex;align-items:flex-start;gap:9px;margin:0;padding:13px 16px;border-top:1px solid var(--ln);font-size:.88rem;line-height:1.55;color:#5b6757}
+.sf .tkc-closed>svg{flex:none;margin-top:4px}
+.sf .tkc-closed a{font-weight:700;color:#0f766e;text-decoration:underline}
+
+@container ticket (max-width:520px){
+.sf .tkc-card{border-radius:15px}
+.sf .tkc-thread{padding:12px 10px}
+.sf .tkc-thread li>i{width:26px;height:26px;font-size:.8rem}
+.sf .tkc-bubble{max-width:86%;padding:8px 12px}
+.sf .tkc-reply{flex-direction:column;align-items:stretch;padding:10px}
+.sf .tkc-reply .btn{width:100%;min-height:48px;justify-content:center}
+}

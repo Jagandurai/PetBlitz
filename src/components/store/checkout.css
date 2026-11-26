@@ -1,0 +1,87 @@
+/* Checkout. Scoped to .co. The layout responds to the checkout's own width. */
+.sf .co{container:checkout/inline-size;width:100%;min-width:0}
+.sf .co-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,360px);grid-template-areas:"main sum";gap:22px;align-items:start}
+.sf .co-main{grid-area:main;min-width:0;display:flex;flex-direction:column;gap:14px}
+.sf .co-main .sf-box+.sf-box{margin-top:0}
+.sf .co-sum{grid-area:sum;position:sticky;top:132px;min-width:0}
+.sf .co-sum-toggle{display:none}
+
+/* steps */
+.sf .co-step{scroll-margin-top:130px;border-radius:18px;transition:border-color .25s,box-shadow .25s}
+.sf .co-step.is-current{border-color:#9fcfc6;box-shadow:0 20px 34px -28px rgba(11,90,84,.7)}
+.sf .co-step.is-locked{padding-block:14px;background:#fdfcfa}
+.sf .co-step.is-locked h2{margin:0;color:#8a928f}
+.sf .co-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sf .co-head h2{min-width:0}
+.sf .co-head .sf-btn.text{flex:none;min-height:40px;margin-top:-10px}
+.sf .co-step.is-done h2::after{content:" ✓";color:var(--ok)}
+.sf .co-chosen{margin:0;line-height:1.6;overflow-wrap:anywhere;color:#475467}
+
+/* radio cards. The site-wide rule makes every input full width, which broke these rows. */
+.sf .co .sf-ad input,.sf .co .sf-pm input{flex:none;width:20px;height:20px;margin:2px 0 0;padding:0}
+.sf .co .sf-ad,.sf .co .sf-pm{text-align:left;transition:border-color .2s,background .2s}
+.sf .co .sf-ad:hover,.sf .co .sf-pm:not(.dis):hover{border-color:#8cc3b9}
+.sf .co .sf-ad:focus-within,.sf .co .sf-pm:focus-within{outline:2.5px solid var(--b);outline-offset:2px}
+.sf .co-ad-text{flex:1;min-width:0;line-height:1.65;overflow-wrap:anywhere}
+.sf .co .sf-pm>span:last-child{flex:1;min-width:0}
+.sf .co .sf-pm>svg{flex:none}
+
+/* fields: 16px text stops phones zooming in on focus */
+.sf .co .sf-in{width:100%;min-width:0;height:48px;font-size:1rem}
+.sf .co textarea.sf-in{height:auto;min-height:90px}
+.sf .co-main label>.sf-in{margin:0}
+.sf .co-hint{margin:12px 0 0;font-size:.85rem;color:var(--mu)}
+.sf .co-buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.sf .co-buttons .sf-btn,.sf .co-add{min-height:46px}
+.sf .co-next{margin-top:14px}
+.sf .co-next .sf-btn{min-width:230px;min-height:50px}
+.sf .co-line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--ln)}
+.sf .co-line>span{min-width:0;overflow-wrap:anywhere}.sf .co-line>b{flex:none}
+.sf .co-coupon{display:flex;gap:8px;max-width:420px}
+.sf .co-coupon .sf-in{flex:1}.sf .co-coupon .sf-btn{flex:none}
+.sf .co-note{display:flex;flex-direction:column;gap:6px;margin-top:14px;font-weight:700}
+.sf .co-pay{margin-top:10px;min-height:52px;white-space:normal}
+
+/* summary */
+.sf .co-sum .sf-box{border-radius:18px}
+.sf .co-item{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:.88rem}
+.sf .co-item>span{flex:1;min-width:0;overflow-wrap:anywhere}.sf .co-item>b{flex:none}
+.sf .co-sum .sf-sr{gap:12px}.sf .co-sum .sf-sr>span:last-child{white-space:nowrap}
+.sf .co-assure{display:flex;align-items:flex-start;gap:6px;margin:10px 2px 0;font-size:.82rem;color:var(--mu)}
+.sf .co-assure svg{flex:none;margin-top:3px}
+.sf .co-bar{display:none}
+
+/* tablet and phone: one column, with a collapsible summary above the steps */
+@container checkout (max-width:860px){
+.sf .co-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"sum" "main";gap:14px}
+.sf .co-sum{position:static}
+.sf .co-sum-toggle{display:flex;align-items:center;gap:12px;width:100%;min-height:58px;padding:10px 16px;border:1px solid #bfe0d9;border-radius:16px;background:#eef8f6;font:inherit;text-align:left;color:var(--ink);cursor:pointer}
+.sf .co-sum-toggle>span{flex:1;min-width:0}
+.sf .co-sum-toggle b{display:block;font-size:.93rem;color:var(--bd)}
+.sf .co-sum-toggle small{font-size:.78rem;color:var(--mu)}
+.sf .co-sum-toggle strong{flex:none;font-size:1.15rem}
+.sf .co-sum-toggle svg{flex:none;transition:transform .25s}
+.sf .co-sum.open .co-sum-toggle svg{transform:rotate(180deg)}
+.sf .co-sum-body{display:none;margin-top:10px}
+.sf .co-sum.open .co-sum-body{display:block}
+}
+
+/* phones: the next action stays at the bottom of the screen, above the bottom navigation */
+@media(max-width:680px){
+.sf .co .sf-crumb{display:none}
+.sf .co .sf-steps{margin-bottom:14px}
+.sf .co .sf-st{font-size:.76rem;padding-top:34px}
+.sf .co .sf-st:before{width:28px;height:28px}
+.sf .co .sf-st:after{top:13px}
+.sf .co-step{padding:14px 12px;border-radius:14px;scroll-margin-top:110px}
+.sf .co .sf-ad,.sf .co .sf-pm{gap:10px;padding:12px}
+.sf .co-add{width:100%;justify-content:center}
+.sf .co-buttons .sf-btn{flex:1}
+.sf .co .co-primary{display:none}
+.sf .co-bar{position:sticky;bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:20;display:flex;align-items:center;gap:12px;margin-top:14px;padding:10px 12px;border:1px solid var(--ln);border-radius:16px;background:#fff;box-shadow:0 -10px 26px -14px rgba(16,40,32,.45)}
+.sf .co-bar>div{flex:none}
+.sf .co-bar span{display:block;font-size:.75rem;color:var(--mu)}
+.sf .co-bar b{font-size:1.15rem;white-space:nowrap}
+.sf .co-bar .sf-btn{flex:1;min-width:0;min-height:50px;justify-content:center;padding-inline:10px;white-space:normal;text-align:center;line-height:1.25}
+}
+@media(prefers-reduced-motion:reduce){.sf .co *{transition:none!important}}

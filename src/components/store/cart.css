@@ -1,0 +1,63 @@
+/* Cart and wishlist pages: layout at every width. The cart responds to its own width (container queries). */
+.sf .cart-page,.sf .wish-page{width:100%;min-width:0}
+.sf .cart-page{container:cartpage/inline-size}
+.sf .cart-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:0 0 16px;font-size:clamp(1.4rem,4vw,2rem);line-height:1.2}
+.sf .cart-title span{color:var(--mu);font-size:1rem;font-weight:500}
+.sf .cart-issue{margin-bottom:8px;color:var(--deal);font-size:.86rem;font-weight:700}
+.sf .cart-page .sf-cart{grid-template-columns:minmax(0,1fr) minmax(320px,380px);gap:22px}
+.sf .cart-main,.sf .cart-page .sf-sum{min-width:0}
+.sf .cart-page .cart-lines{padding:0 18px}
+.sf .cart-page .sf-box{border-radius:18px;box-shadow:0 18px 32px -30px rgba(16,40,32,.6)}
+
+/* one product: picture | details | line total */
+.sf .cart-page .sf-ci{grid-template-columns:112px minmax(0,1fr) auto;grid-template-areas:"im info total";align-items:start;gap:16px;padding:18px 0}
+.sf .cart-page .sf-ci .im{grid-area:im;display:block;width:112px;height:112px;border-radius:14px}
+.sf .cart-info{grid-area:info;min-width:0}
+.sf .cart-name{display:block;font-weight:700;line-height:1.4;overflow-wrap:anywhere}
+.sf .cart-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
+.sf .cart-tools .sf-btn.text{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding-inline:2px;white-space:nowrap}
+.sf .cart-page .sf-ci>.cart-total{grid-area:total;text-align:right;font-size:1.15rem;font-weight:800;white-space:nowrap}
+
+.sf .cart-coupon{display:flex;gap:8px}
+.sf .cart-coupon .sf-in{flex:1;width:auto;min-width:0}
+.sf .cart-coupon .sf-btn{flex:none}
+.sf .cart-page .sf-sr{gap:12px}.sf .cart-page .sf-sr>span:last-child{text-align:right;white-space:nowrap}
+.sf .cart-bar{display:none}
+
+/* tablet and narrow windows: summary moves below the products */
+@container cartpage (max-width:900px){
+.sf .cart-page .sf-cart{grid-template-columns:minmax(0,1fr)}
+.sf .cart-page .sf-sum{position:static}
+}
+@container cartpage (min-width:641px) and (max-width:900px){
+.sf .cart-page .sf-sum{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+.sf .cart-page .sf-sum .sf-box+.sf-box{margin-top:0}
+}
+
+/* phones: picture beside the name; quantity and total get their own full-width rows */
+@container cartpage (max-width:560px){
+.sf .cart-page .cart-lines{padding:0 12px}
+.sf .cart-page .sf-ci{grid-template-columns:84px minmax(0,1fr);grid-template-areas:"im info" "im total";column-gap:12px;row-gap:6px;padding:14px 0}
+.sf .cart-page .sf-ci .im{width:84px;height:84px}
+.sf .cart-info{display:contents}
+.sf .cart-page .sf-ci{grid-template-areas:"im name" "im each" "im total" "issue issue" "tools tools";grid-template-rows:auto auto auto auto auto}
+.sf .cart-info>.cart-name{grid-area:name}
+.sf .cart-info>.muted{grid-area:each;margin:0!important}
+.sf .cart-info>.cart-tools{grid-area:tools;margin-top:6px;justify-content:space-between;gap:6px}
+.sf .cart-tools .sf-qty button{width:32px;height:36px}.sf .cart-tools .sf-qty span{min-width:30px}
+.sf .cart-tools .sf-btn.text{gap:4px;font-size:.82rem}
+.sf .cart-info>.cart-issue{grid-area:issue;margin:2px 0 0}
+.sf .cart-page .sf-ci>.cart-total{grid-column:auto;align-self:start;text-align:left;font-size:1.08rem}
+.sf .cart-page .sf-box{border-radius:14px}
+.sf .cart-page .sf-sum .sf-box{padding:14px}
+}
+@media(max-width:680px){
+/* sits just above the bottom navigation */
+.sf .cart-bar{position:sticky;bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding:10px 14px;border:1px solid var(--ln);border-radius:16px;background:#fff;box-shadow:0 -8px 24px -14px rgba(16,40,32,.45)}
+.sf .cart-bar span{display:block;font-size:.76rem;color:var(--mu)}
+.sf .cart-bar b{font-size:1.2rem;white-space:nowrap}
+.sf .cart-bar .sf-btn{min-width:140px;justify-content:center}
+.sf .wish-page .sf-bar{gap:4px}
+.sf .wish-page .sf-bar h1{font-size:1.35rem}
+.sf .wish-page .sf-empty{padding:32px 14px}
+}

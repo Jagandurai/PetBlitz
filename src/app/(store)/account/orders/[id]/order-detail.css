@@ -1,0 +1,87 @@
+/* One order. Scoped to .odt; the layout responds to its own width, so the account menu is taken into account. */
+.sf .odt{container:order/inline-size;display:flex;flex-direction:column;gap:14px;width:100%;min-width:0}
+.sf .odt-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 16px}
+.sf .odt-head>div:first-child{min-width:0}
+.sf .odt-back{display:inline-flex;align-items:center;gap:6px;min-height:32px;font-size:.86rem;font-weight:700;color:#0f766e}
+.sf .odt .odt-head h1{margin:2px 0;font-size:clamp(1.3rem,5cqi,1.9rem);overflow-wrap:anywhere}
+.sf .odt-head p{margin:0;font-size:.85rem;color:var(--mu)}
+.sf .odt-badges{display:flex;flex-wrap:wrap;gap:8px}
+.sf .odt-badges .badge{padding:5px 12px}
+
+.sf .odt-card{min-width:0;padding:18px 20px;border:1px solid var(--ln);border-radius:18px;background:#fff}
+.sf .odt .odt-card h2{display:flex;align-items:center;gap:8px;margin:0 0 14px;font-size:1.02rem}
+.sf .odt-card h2 svg{flex:none;color:#0f766e}
+
+.sf .odt-pay{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 18px;padding:18px 20px;border:1px solid #a9d8cf;border-radius:18px;background:#eef8f6}
+.sf .odt-pay>div:first-child span{display:block;font-size:.84rem;font-weight:700;color:#0b5a54}
+.sf .odt-pay>div:first-child b{font-size:1.6rem;line-height:1.25;white-space:nowrap}
+.sf .odt-pay-actions{display:flex;flex-wrap:wrap;gap:10px}
+.sf .odt-pay-actions .btn{min-height:48px;padding:11px 20px}
+.sf .odt-pay p{width:100%;margin:0;font-size:.84rem;color:var(--mu)}
+.sf .odt-pay p a{text-decoration:underline}
+
+/* progress: a vertical list by default, one horizontal line when there is room for all eight stages */
+.sf .odt-track{margin:0;padding:0;list-style:none}
+.sf .odt-track li{position:relative;display:flex;gap:12px;min-width:0;padding-bottom:14px;color:#8a928f}
+.sf .odt-track li:last-child{padding-bottom:0}
+.sf .odt-track li::after{content:"";position:absolute;left:12px;top:27px;bottom:1px;width:2px;background:#e4e8e5}
+.sf .odt-track li:last-child::after{display:none}
+.sf .odt-track li.done::after{background:#0f766e}
+.sf .odt-track i{position:relative;z-index:1;flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#e9ece9;font-style:normal;font-size:.72rem;font-weight:800}
+.sf .odt-track span{display:block;min-width:0;padding-top:3px;line-height:1.35}
+.sf .odt-track b{display:block;font-size:.88rem}
+.sf .odt-track small{display:block;font-size:.76rem;color:var(--mu)}
+.sf .odt-track li.done{color:#0b5a54}.sf .odt-track li.done i{background:#0f766e;color:#fff}
+.sf .odt-track li.cur{color:#0b5a54}.sf .odt-track li.cur i{border:2px solid #0f766e;background:#fff;box-shadow:0 0 0 4px #e0f1ee}
+
+.sf .odt-ship{display:flex;align-items:flex-start;gap:10px;margin:0;padding:12px 16px;border:1px solid #cfe5e0;border-radius:14px;background:#f4faf9;line-height:1.55;overflow-wrap:anywhere}
+.sf .odt-ship>svg{flex:none;margin-top:4px;color:#0f766e}.sf .odt-ship>span{min-width:0}
+.sf .odt-ship a{font-weight:700;color:#0f766e;text-decoration:underline}
+.sf .odt-ship.quiet{font-size:.86rem;color:var(--mu)}
+
+.sf .odt-items{margin:0;padding:0;list-style:none}
+.sf .odt-items li{display:grid;grid-template-columns:64px minmax(0,1fr) auto;grid-template-areas:"img name price" "img acts acts";align-items:center;gap:4px 14px;padding:12px 0;border-top:1px solid var(--ln)}
+.sf .odt-items li:first-child{padding-top:0;border-top:0}.sf .odt-items li:last-child{padding-bottom:0}
+.sf .odt-img{grid-area:img;align-self:start;overflow:hidden;width:64px;height:64px;border-radius:12px;background:#f1ece1}
+.sf .odt-img>*{width:100%;height:100%;object-fit:cover}
+.sf .odt-name{grid-area:name;min-width:0}
+.sf .odt-name strong{display:block;line-height:1.4;overflow-wrap:anywhere}
+.sf .odt-name span{font-size:.84rem;color:var(--mu)}
+.sf .odt-line{grid-area:price;white-space:nowrap}
+.sf .odt-item-actions{grid-area:acts;display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.sf .odt-item-actions .btn{min-height:38px;padding-inline:16px}
+
+.sf .odt-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.sf .odt address{font-style:normal;line-height:1.75;overflow-wrap:anywhere}
+.sf .odt-sum{margin:0}
+.sf .odt-sum>div{display:flex;justify-content:space-between;gap:14px;padding:6px 0}
+.sf .odt-sum dt{min-width:0;overflow-wrap:anywhere}.sf .odt-sum dd{flex:none;margin:0;white-space:nowrap}
+.sf .odt-sum .save dd{color:var(--ok);font-weight:700}
+.sf .odt-sum .small{font-size:.84rem;color:var(--mu)}
+.sf .odt-sum .total{margin-top:6px;padding-top:12px;border-top:1px dashed #cfc8bb;font-size:1.12rem;font-weight:800}
+
+.sf .odt-actions{display:flex;flex-wrap:wrap;gap:10px}
+.sf .odt-actions .btn{min-height:46px;padding:10px 20px;justify-content:center}
+.sf .odt .odt-actions .odt-cancel{margin-left:auto;border-color:#e3a59d;color:#b42318}
+
+@container order (min-width:780px){
+.sf .odt-track{display:grid;grid-template-columns:repeat(8,minmax(0,1fr))}
+.sf .odt-track li{flex-direction:column;align-items:center;gap:6px;padding:0 2px;text-align:center}
+.sf .odt-track li::after{left:50%;top:12px;bottom:auto;width:100%;height:2px}
+.sf .odt-track b{font-size:.76rem}.sf .odt-track small{font-size:.68rem}
+}
+@container order (max-width:640px){
+.sf .odt-two{grid-template-columns:minmax(0,1fr)}
+}
+@container order (max-width:480px){
+.sf .odt-card{padding:14px 12px;border-radius:15px}
+.sf .odt-pay{padding:14px 12px}
+.sf .odt-pay-actions{width:100%;flex-direction:column}
+.sf .odt-pay-actions .btn{width:100%;white-space:normal;justify-content:center}
+.sf .odt-items li{grid-template-columns:56px minmax(0,1fr);grid-template-areas:"img name" "img price" "acts acts";gap:3px 12px}
+.sf .odt-img{width:56px;height:56px}
+.sf .odt-item-actions .btn{flex:1;justify-content:center}
+.sf .odt-actions{flex-direction:column}
+.sf .odt-actions .btn{width:100%}
+.sf .odt .odt-actions .odt-cancel{margin-left:0}
+}

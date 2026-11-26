@@ -1,0 +1,59 @@
+/* Return requests. Scoped to .rtn; the layout responds to its own width. */
+.sf .rtn{container:returns/inline-size;display:flex;flex-direction:column;gap:16px;width:100%;min-width:0}
+.sf .rtn-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.sf .rtn-head>div{flex:1;min-width:220px}
+.sf .rtn .rtn-head h1{margin:0;font-size:clamp(1.4rem,5cqi,1.9rem)}
+.sf .rtn-head p{margin:4px 0 0;font-size:.87rem;line-height:1.55;color:var(--mu)}
+
+.sf .rtn-list{display:flex;flex-direction:column;gap:14px;margin:0;padding:0;list-style:none}
+.sf .rtn-card{min-width:0;padding:18px 20px;border:1px solid var(--ln);border-radius:18px;background:#fff;transition:border-color .2s,box-shadow .2s}
+.sf .rtn-card:hover{border-color:#a9d3cb;box-shadow:0 20px 30px -26px rgba(11,90,84,.6)}
+.sf .rtn-top{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.sf .rtn-top>i{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:#e6f4f2;color:#0f766e;font-size:1.25rem}
+.sf .rtn-top>div{flex:1;min-width:150px}
+.sf .rtn .rtn-top h2{margin:0;font-size:1.04rem;overflow-wrap:anywhere}
+.sf .rtn-top p{margin:2px 0 0;font-size:.82rem;color:var(--mu)}
+.sf .rtn-top .badge{padding:5px 13px}
+
+.sf .rtn-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0 0}
+.sf .rtn-facts>div{min-width:0;padding:10px 14px;border-radius:12px;background:#f5f9f8}
+.sf .rtn-facts dt{font-size:.74rem;color:var(--mu)}
+.sf .rtn-facts dd{margin:2px 0 0;font-weight:700;overflow-wrap:anywhere}
+.sf .rtn-facts .money{color:#0b5a54;font-size:1.08rem}
+
+.sf .rtn-track{isolation:isolate;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:18px 0 0;padding:0;list-style:none}
+.sf .rtn-track li{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;font-size:.76rem;font-weight:700;text-align:center;color:#8a928f}
+.sf .rtn-track li::before{content:"";position:absolute;top:12px;right:50%;width:100%;height:3px;background:#e6e9e6}
+.sf .rtn-track li:first-child::before{display:none}
+.sf .rtn-track span{position:relative;z-index:1;display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:#e9ece9;font-size:.74rem}
+.sf .rtn-track li.done,.sf .rtn-track li.now{color:#0b5a54}
+.sf .rtn-track li.done::before,.sf .rtn-track li.now::before{background:#0f766e}
+.sf .rtn-track li.done span{background:#0f766e;color:#fff}
+.sf .rtn-track li.now span{border:2px solid #0f766e;background:#fff;box-shadow:0 0 0 4px #e0f1ee}
+
+.sf .rtn-note{margin:14px 0 0;padding:10px 14px;border-left:3px solid #0f766e;border-radius:0 10px 10px 0;background:#f2faf8;font-size:.88rem;line-height:1.55;color:#344054}
+.sf .rtn-note.bad{border-color:#d92d20;background:#fff4f2}
+.sf .rtn-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--ln)}
+.sf .rtn-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:9px 20px;border:1.5px solid #0f766e;border-radius:999px;background:#0f766e;color:#fff;font-size:.9rem;font-weight:700;text-align:center}
+.sf .rtn-btn:hover{background:#0b5a54;color:#fff}
+.sf .rtn-btn.ghost{background:#fff;color:#0b5a54}.sf .rtn-btn.ghost:hover{background:#e6f4f2}
+.sf .rtn-btn:focus-visible{outline:2.5px solid #0f766e;outline-offset:3px}
+
+.sf .rtn-empty{display:flex;flex-direction:column;align-items:center;gap:6px;padding:40px 18px;border:1px dashed #cfd8d4;border-radius:20px;background:#fff;text-align:center}
+.sf .rtn-empty>i{display:grid;place-items:center;width:62px;height:62px;margin-bottom:6px;border-radius:50%;background:#e6f4f2;color:#0f766e;font-size:1.7rem}
+.sf .rtn-empty b{font-size:1.15rem}
+.sf .rtn-empty p{max-width:44ch;margin:0 0 10px;line-height:1.6;color:var(--mu)}
+
+@container returns (max-width:480px){
+.sf .rtn-head>.rtn-btn{width:100%}
+.sf .rtn-card{padding:14px 12px;border-radius:15px}
+.sf .rtn-top>i{width:38px;height:38px;border-radius:12px;font-size:1.05rem}
+.sf .rtn-top>div{min-width:0}
+.sf .rtn-top .badge{margin-left:50px}
+.sf .rtn-facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.sf .rtn-facts>div:nth-child(3){grid-column:1/-1}
+.sf .rtn-track li{font-size:.66rem}
+.sf .rtn-actions{flex-direction:column-reverse}
+.sf .rtn-actions .rtn-btn{width:100%}
+}
+@media(prefers-reduced-motion:reduce){.sf .rtn-card{transition:none}}

@@ -1,0 +1,45 @@
+/* Contact page. The banner and the base .pg look come from components/page-parts.css. */
+.sf .ct-grid{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;align-items:stretch}
+
+.sf .ct-side{display:flex;flex-direction:column;gap:14px;padding:28px 22px;border-radius:28px;background:linear-gradient(170deg,#0F5A3B,#08382A);color:#fff}
+.sf .pg .ct-side h2{margin:0;font-size:1.45rem;color:#fff}
+.sf .ct-side>p{font-size:.93rem;color:#DCEBD2}
+.sf .ct-links{display:flex;flex-direction:column;gap:10px;margin:6px 0 0;padding:0;list-style:none}
+.sf .ct-links a{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(255,255,255,.06);color:#fff;transition:background .25s,transform .25s,border-color .25s}
+.sf .ct-links a:hover{transform:translateX(3px);background:rgba(255,255,255,.13);border-color:#B9DC8C}
+.sf .ct-links i{flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:#CFE5B4;color:#0A4C31;font-size:1.2rem}
+.sf .ct-links span{min-width:0;font-size:.8rem;color:#CFE0C6;overflow-wrap:anywhere}
+.sf .ct-links b{display:block;font-size:.95rem;color:#fff}
+.sf .pg .ct-note{display:flex;align-items:center;gap:10px;margin-top:auto;padding:12px 14px;border-radius:16px;background:#CFE5B4;color:#08382A;font-size:.88rem;font-weight:700;line-height:1.5}
+.sf .ct-note svg{flex:none;width:22px;height:22px}
+
+.sf .ct-card{padding:30px 32px;border:1px solid #e4e0d3;border-radius:28px;background:#fff;box-shadow:0 22px 40px -32px rgba(38,61,43,.7)}
+.sf .pg .ct-card h2{margin:0;font-size:1.6rem}
+.sf .pg .ct-card .ct-lead{margin:4px 0 20px;font-size:.93rem;color:#5b6757}
+.sf .ct-form{display:flex;flex-direction:column;gap:14px}
+.sf .ct-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.sf .ct-form label{color:#263D2B;font-weight:700;font-size:.9rem}
+.sf .ct-form input,.sf .ct-form select,.sf .ct-form textarea{width:100%;margin-top:6px;padding:12px 14px;border:1.5px solid #dfe4d6;border-radius:14px;background:#FBFCF8;font:inherit;font-weight:400;color:#1f2937;transition:border-color .2s,box-shadow .2s,background .2s}
+.sf .ct-form textarea{min-height:130px;resize:vertical}
+.sf .ct-form input:hover,.sf .ct-form select:hover,.sf .ct-form textarea:hover{border-color:#b9cda4}
+.sf .ct-form input:focus,.sf .ct-form select:focus,.sf .ct-form textarea:focus{outline:0;border-color:#3F8F5B;background:#fff;box-shadow:0 0 0 4px rgba(63,143,91,.15)}
+.sf .ct-form button{align-self:flex-start;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-width:210px;margin-top:4px;padding:14px 28px;border:0;border-radius:999px;background:#0A4C31;color:#fff;font-weight:700;font-size:1rem;transition:background .25s,transform .25s}
+.sf .ct-form button:hover:not(:disabled){background:#136B47;transform:translateY(-2px)}
+.sf .ct-form button:focus-visible{outline:2.5px solid #3F8F5B;outline-offset:3px}
+
+.sf .ct-done{padding:40px 24px;border:1px solid #cfe0bd;border-radius:28px;background:linear-gradient(180deg,#F1F8E8,#fff);text-align:center}
+.sf .ct-done>svg{width:62px;height:62px;color:#2F8A52}
+.sf .pg .ct-done h2{margin:10px 0 6px;font-size:1.8rem}
+.sf .ct-done .ct-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:20px}
+.sf .ct-done .pg-btn.light{border:1.5px solid #0A4C31}
+
+@media(max-width:900px){
+.sf .ct-grid{grid-template-columns:minmax(0,1fr)}
+.sf .ct-side{order:2}
+}
+@media(max-width:600px){
+.sf .ct-card{padding:22px 16px;border-radius:22px}
+.sf .ct-row{grid-template-columns:minmax(0,1fr)}
+.sf .ct-form button{align-self:stretch}
+}
+@media(prefers-reduced-motion:reduce){.sf .ct-links a:hover,.sf .ct-form button:hover:not(:disabled){transform:none}}
